@@ -1,4 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
 
 using dscui.Contracts.Services;
 using dscui.Contracts.ViewModels;
@@ -103,6 +103,11 @@ public class NavigationService : INavigationService
         }
 
         return false;
+    }
+
+    public bool NavigateTo<T>(object? parameter = null, bool clearNavigation = false)
+    {
+        return NavigateTo(typeof(T).FullName!, parameter, clearNavigation);
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)

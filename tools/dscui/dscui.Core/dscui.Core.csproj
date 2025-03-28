@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="$(SolutionDir)ToolingVersions.props" />
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
     <RootNamespace>dscui.Core</RootNamespace>
     <Platforms>AnyCPU;x64;x86</Platforms>
     <Platforms>x86;x64;arm64;AnyCPU</Platforms>
