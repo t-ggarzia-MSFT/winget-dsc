@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\dscui.Core\DSCUI.Core.csproj" />
+    <ProjectReference Include="..\dscui.Core\DSCUI.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
