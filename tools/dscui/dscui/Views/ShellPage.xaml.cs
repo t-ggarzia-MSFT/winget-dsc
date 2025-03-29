@@ -1,18 +1,17 @@
 ﻿using dscui.Contracts.Services;
+using dscui.Contracts.Views;
 using dscui.Helpers;
 using dscui.ViewModels;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 
 using Windows.System;
 
 namespace dscui.Views;
 
-// TODO: Update NavigationViewItem titles and icons in ShellPage.xaml.
-public sealed partial class ShellPage : Page
+public sealed partial class ShellPage : Page, IView<ShellViewModel>
 {
     public ShellViewModel ViewModel
     {

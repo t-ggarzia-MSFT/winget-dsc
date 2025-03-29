@@ -19,6 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DSCUI.Services.WindowsPacka
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution items", "Solution items", "{0719441E-7B8C-48F3-8D7B-918F0689AD66}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		nuget.config = nuget.config
 		ToolingVersions.props = ToolingVersions.props
 	EndProjectSection

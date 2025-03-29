@@ -12,6 +12,6 @@
             Header="Configuration"
             Description="Use a configuration file (YAML) for setup."
             IsClickEnabled="True"
-            Command="{x:Bind ViewModel.ConfigurationClickCommand}"/>
+            Click="Configuration_Click"/>
     </Grid>
 </Page>

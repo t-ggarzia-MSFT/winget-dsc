@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using DSCUI.Services.DesiredStateConfiguration.Contracts;
 
@@ -26,7 +24,7 @@ internal sealed class DSC : IDSC
     public async Task<bool> UnstubAsync() => await _dscDeployment.UnstubAsync();
 
     /// <inheritdoc/>
-    public async Task<IDSCApplicationResult> ApplyConfigurationAsync(IDSCFile file, Guid activityId) => await _dscOperations.ApplyConfigurationAsync(file, activityId);
+    public async Task<IDSCApplicationResult> ApplyConfigurationAsync(IDSCFile file) => await _dscOperations.ApplyConfigurationAsync(file);
 
     /// <inheritdoc/>
     public async Task<IDSCSet> GetConfigurationUnitDetailsAsync(IDSCFile file) => await _dscOperations.GetConfigurationUnitDetailsAsync(file);

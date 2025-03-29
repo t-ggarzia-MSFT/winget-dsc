@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using dscui.Contracts.Services;
+using Windows.Storage;
 
 namespace dscui.ViewModels;
 
@@ -13,9 +13,9 @@ public partial class MainViewModel : ObservableRecipient
         _navigationService = navigationService;
     }
 
-    [RelayCommand]
-    private async Task OnConfigurationClick()
+    public async Task StartConfigurationFlowAsync(IStorageFile file)
     {
-        _navigationService.NavigateTo<ConfigurationViewModel>();
+        _navigationService.NavigateTo<ConfigurationViewModel>(file);
+        await Task.CompletedTask;
     }
 }

@@ -32,6 +32,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\dscui.Core\DSCUI.Common.csproj" />
+    <ProjectReference Include="..\services\DSCUI.Services.DesiredStateConfiguration\DSCUI.Services.DesiredStateConfiguration.csproj" />
+    <ProjectReference Include="..\services\DSCUI.Services.WindowsPackageManager\DSCUI.Services.WindowsPackageManager.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">

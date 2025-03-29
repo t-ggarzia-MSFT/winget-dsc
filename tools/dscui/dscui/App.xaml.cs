@@ -2,12 +2,12 @@
 using dscui.Contracts.Services;
 using dscui.Core.Contracts.Services;
 using dscui.Core.Services;
-using dscui.Helpers;
 using dscui.Models;
 using dscui.Services;
 using dscui.ViewModels;
 using dscui.Views;
-
+using DSCUI.Services.DesiredStateConfiguration.Extensions;
+using DSCUI.Services.WindowsPackageManager.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
@@ -67,6 +67,8 @@ public partial class App : Application
 
             // Core Services
             services.AddSingleton<IFileService, FileService>();
+            services.AddDSC();
+            services.AddWinGet();
 
             // Views and ViewModels
             services.AddTransient<SettingsViewModel>();

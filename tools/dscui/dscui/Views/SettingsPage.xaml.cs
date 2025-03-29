@@ -1,11 +1,11 @@
-﻿using dscui.ViewModels;
+﻿using dscui.Contracts.Views;
+using dscui.ViewModels;
 
 using Microsoft.UI.Xaml.Controls;
 
 namespace dscui.Views;
 
-// TODO: Set the URL for your privacy policy by updating SettingsPage_PrivacyTermsLink.NavigateUri in Resources.resw.
-public sealed partial class SettingsPage : Page
+public sealed partial class SettingsPage : Page, IView<SettingsViewModel>
 {
     public SettingsViewModel ViewModel
     {
