@@ -7,6 +7,15 @@
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+            <HyperlinkButton Content="Cancel" MinWidth="120" />
+            <Button Content="Previous" MinWidth="120" />
+            <Button Content="Next" Style="{ThemeResource AccentButtonStyle}" MinWidth="120" />
+        </StackPanel>
     </Grid>
 </Page>

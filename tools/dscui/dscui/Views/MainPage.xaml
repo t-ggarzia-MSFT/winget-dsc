@@ -5,13 +5,27 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ct="using:CommunityToolkit.WinUI.Controls"
+    xmlns:helpers="using:dscui.Helpers"
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
-        <ct:SettingsCard
-            Header="Configuration"
-            Description="Use a configuration file (YAML) for setup."
-            IsClickEnabled="True"
-            Click="Configuration_Click"/>
+        <GridView>
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid x:Name="MaxItemsWrapGrid" MaximumRowsOrColumns="3" Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+
+            <ct:SettingsCard
+                Command="{x:Bind ViewModel.NavigateToConfigurationCommand}"
+                Header="Apply configuration"
+                Description="Apply a configuration file."
+                IsClickEnabled="True"/>
+
+            <ct:SettingsCard
+                Header="Validation configuration"
+                Description="Validate a configuration file."
+                IsClickEnabled="True"/>
+        </GridView>
     </Grid>
 </Page>
