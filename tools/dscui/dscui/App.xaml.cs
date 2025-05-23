@@ -5,7 +5,9 @@ using dscui.Core.Services;
 using dscui.Models;
 using dscui.Services;
 using dscui.ViewModels;
+using dscui.ViewModels.ConfigurationFlow;
 using dscui.Views;
+using dscui.Views.ConfigurationFlow;
 using DSCUI.Services.DesiredStateConfiguration.Extensions;
 using DSCUI.Services.WindowsPackageManager.Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -79,6 +81,8 @@ public partial class App : Application
             services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
+            services.AddTransient<SelectFilePage>();
+            services.AddTransient<SelectFileViewModel>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));

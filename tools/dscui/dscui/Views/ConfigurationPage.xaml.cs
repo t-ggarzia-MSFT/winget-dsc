@@ -7,10 +7,7 @@ namespace dscui.Views;
 
 public sealed partial class ConfigurationPage : Page, IView<ConfigurationViewModel>
 {
-    public ConfigurationViewModel ViewModel
-    {
-        get;
-    }
+    public ConfigurationViewModel ViewModel { get; }
 
     public ConfigurationPage()
     {
