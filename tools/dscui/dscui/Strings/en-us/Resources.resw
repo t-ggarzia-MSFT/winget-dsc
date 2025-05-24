@@ -61,7 +61,7 @@
   <data name="AppDisplayName" xml:space="preserve">
     <value>dscui</value>
   </data>
-	<data name="AppDescription" xml:space="preserve">
+  <data name="AppDescription" xml:space="preserve">
 		<value>dscui</value>
   	</data>
   <data name="Shell_Main.Content" xml:space="preserve">
@@ -96,5 +96,89 @@
   </data>
   <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
     <value>https://YourPrivacyUrlGoesHere/</value>
+  </data>
+  <data name="ConfigurationFileWarning.Title" xml:space="preserve">
+    <value>Configuration file warning</value>
+    <comment>Title of the configuration file warning message</comment>
+  </data>
+  <data name="ConfigurationFileWarning.Message" xml:space="preserve">
+    <value>You are responsible for understanding the configuration settings you are choosing to execute. Microsoft is not responsible for the configuration file you have authored or imported. This configuration may change settings in Windows, install software, change software settings (including security settings), and accept user agreements to third-party packages and services on your behalf. By running this configuration file, you acknowledge that you understand and agree to these resources and settings. Any applications installed are licensed to you by their owners. Microsoft is not responsible for, nor does it grant any licenses to, third-party packages or services.</value>
+    <comment>Legal approved. Do not change without approval.</comment>
+  </data>
+    <data name="ConfigurationUnit_Id.Key" xml:space="preserve">
+    <value>Id</value>
+    <comment>Id of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_Intent.Key" xml:space="preserve">
+    <value>Intent</value>
+    <comment>Intent of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_Dependencies.Text" xml:space="preserve">
+    <value>Dependencies</value>
+    <comment>Dependencies of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_ResourceMetadata.Text" xml:space="preserve">
+    <value>Resource metadata</value>
+    <comment>Resource metadata of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_Settings.Text" xml:space="preserve">
+    <value>Settings</value>
+    <comment>Settings of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_Details.Text" xml:space="preserve">
+    <value>Details</value>
+    <comment>Details of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_UnitType.Key" xml:space="preserve">
+    <value>unit type</value>
+    <comment>Unit type of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_UnitDescription.Key" xml:space="preserve">
+    <value>unit description</value>
+    <comment>Unit description of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_UnitDocumentation.Key" xml:space="preserve">
+    <value>unit documentation</value>
+    <comment>Unit documentation of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_ModuleName.Key" xml:space="preserve">
+    <value>module name</value>
+    <comment>Module name of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_ModuleSource.Key" xml:space="preserve">
+    <value>module source</value>
+    <comment>Module source of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_ModuleDescription.Key" xml:space="preserve">
+    <value>module description</value>
+    <comment>Module description of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_ModuleDocumentationUri.Key" xml:space="preserve">
+    <value>module documentation uri</value>
+    <comment>Module documentation uri of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_PublishedModuleUri.Key" xml:space="preserve">
+    <value>module documentation uri</value>
+    <comment>Module documentation uri of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_Version.Key" xml:space="preserve">
+    <value>version</value>
+    <comment>Version of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_IsLocal.Key" xml:space="preserve">
+    <value>is local</value>
+    <comment>Check if the configuration unit is local on the machine</comment>
+  </data>
+  <data name="ConfigurationUnit_Author.Key" xml:space="preserve">
+    <value>author</value>
+    <comment>Author of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_Publisher.Key" xml:space="preserve">
+    <value>publisher</value>
+    <comment>Publisher of the configuration unit</comment>
+  </data>
+  <data name="ConfigurationUnit_IsPublic.Key" xml:space="preserve">
+    <value>is public</value>
+    <comment>Check if the configuration unit is public</comment>
   </data>
 </root>
