@@ -15,6 +15,7 @@
     <EnableMsixTooling>true</EnableMsixTooling>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Views\ConfigurationFlow\ApplyFilePage.xaml" />
     <None Remove="Views\ConfigurationFlow\PreviewFilePage.xaml" />
     <None Remove="Views\ConfigurationFlow\SelectFilePage.xaml" />
   </ItemGroup>
@@ -45,6 +46,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\ConfigurationFlow\ApplyFilePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\ConfigurationFlow\PreviewFilePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -76,6 +76,8 @@ public partial class App : Application
             services.AddTransient<SelectFileViewModel>();
             services.AddTransient<PreviewFilePage>();
             services.AddTransient<PreviewFileViewModel>();
+            services.AddTransient<ApplyFilePage>();
+            services.AddTransient<ApplyFileViewModel>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));

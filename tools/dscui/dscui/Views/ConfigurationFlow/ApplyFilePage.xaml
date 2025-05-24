@@ -1,16 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Page
-    x:Class="dscui.Views.ConfigurationPage"
+    x:Class="dscui.Views.ConfigurationFlow.ApplyFilePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:dscui.Views.ConfigurationFlow"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:behaviors="using:dscui.Behaviors"
-    xmlns:locals="using:dscui.Views.ConfigurationFlow"
-    behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
     mc:Ignorable="d">
 
     <Grid>
-        <locals:ApplyFilePage />
-        <Frame />
+        <TextBlock>Testing</TextBlock>
     </Grid>
 </Page>
