@@ -14,12 +14,12 @@ public interface IDSC
     /// <inheritdoc cref="IDSCDeployment.UnstubAsync" />
     public Task<bool> UnstubAsync();
 
+    /// <inheritdoc cref="IDSCOperations.OpenConfigurationSetAsync" />
+    public Task<IDSCSet> OpenConfigurationSetAsync(IDSCFile file);
+
     /// <inheritdoc cref="IDSCOperations.ApplySetAsync" />
-    public IAsyncOperationWithProgress<IDSCApplySetResult, IDSCSetChangeData> ApplySetAsync(IDSCFile file);
+    public IAsyncOperationWithProgress<IDSCApplySetResult, IDSCSetChangeData> ApplySetAsync(IDSCSet set);
 
-    /// <inheritdoc cref="IDSCOperations.GetConfigurationUnitDetailsAsync" />
-    public Task<IDSCSet> GetConfigurationUnitDetailsAsync(IDSCFile file);
-
-    /// <inheritdoc cref="IDSCOperations.ValidateConfigurationAsync" />
-    public Task ValidateConfigurationAsync(IDSCFile file);
+    /// <inheritdoc cref="IDSCOperations.GetConfigurationUnitDetails" />
+    public void GetConfigurationUnitDetails(IDSCSet set);
 }

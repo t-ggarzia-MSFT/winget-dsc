@@ -29,8 +29,21 @@ internal sealed class DSCSet : IDSCSet
     /// </remarks>
     internal IList<DSCUnit> UnitsInternal { get; }
 
-    public DSCSet(ConfigurationSet configSet)
+    /// <summary>
+    /// Gets the <see cref="ConfigurationProcessor"/> instance used to process configuration settings.
+    /// </summary>
+    internal ConfigurationProcessor Processor { get; }
+
+    /// <summary>
+    /// Gets the <see cref="ConfigurationSet"/> instance that this object wraps.
+    /// </summary>
+    internal ConfigurationSet ConfigSet { get; }
+
+    public DSCSet(ConfigurationProcessor processor, ConfigurationSet configSet)
     {
+        Processor = processor;
+        ConfigSet = configSet;
+
         // Constructor copies all the required data from the out-of-proc COM
         // objects over to the current process. This ensures that we have this
         // information available even if the out-of-proc COM objects are no

@@ -11,7 +11,7 @@ public interface IDSCApplySetResult
     /// <summary>
     /// Gets the configuration set that was applied.
     /// </summary>
-    // IDSCSet AppliedSet { get; }
+     IDSCSet AppliedSet { get; }
 
     /// <summary>
     /// Gets the overall result from applying the configuration set.

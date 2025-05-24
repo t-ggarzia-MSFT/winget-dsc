@@ -11,13 +11,13 @@ namespace DSCUI.Services.DesiredStateConfiguration.Models;
 
 internal sealed class DSCApplySetResult : IDSCApplySetResult
 {
-    public DSCApplySetResult(ConfigurationSet appliedSet, ApplyConfigurationSetResult result)
+    public DSCApplySetResult(IDSCSet appliedSet, ApplyConfigurationSetResult result)
     {
         // Constructor copies all the required data from the out-of-proc COM
         // objects over to the current process. This ensures that we have this
         // information available even if the out-of-proc COM objects are no
         // longer available (e.g. AppInstaller service is no longer running).
-        // AppliedSet = new DSCSet(appliedSet);
+        AppliedSet = appliedSet;
         ResultCode = result.ResultCode;
         UnitResults = result.UnitResults.Select(unitResult => new DSCApplyUnitResult(unitResult)).ToList();
     }
