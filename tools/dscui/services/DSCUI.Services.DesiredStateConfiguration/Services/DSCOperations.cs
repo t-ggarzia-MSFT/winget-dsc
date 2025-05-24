@@ -24,15 +24,16 @@ internal sealed class DSCOperations : IDSCOperations
     }
 
     /// <inheritdoc />
-    public async Task<IDSCApplicationResult> ApplyConfigurationAsync(IDSCFile file)
+    public async Task<IDSCApplySetResult> ApplyConfigurationAsync(IDSCFile file)
     {
         var processor = await CreateConfigurationProcessorAsync();
         var configSet = await OpenConfigurationSetAsync(file, processor);
 
         _logger.LogInformation("Starting to apply configuration set");
-        var outOfProcResult = await processor.ApplySetAsync(configSet, ApplyConfigurationSetFlags.None);
-        var inProcResult = new DSCApplicationResult(configSet, outOfProcResult);
-        _logger.LogInformation($"Apply configuration finished. HResult: {inProcResult.ResultException?.HResult}");
+        var task = processor.ApplySetAsync(configSet, ApplyConfigurationSetFlags.None);
+        var outOfProcResult = await task;
+        var inProcResult = new DSCApplySetResult(configSet, outOfProcResult);
+        _logger.LogInformation($"Apply configuration finished.");
         return inProcResult;
     }
 

@@ -14,7 +14,7 @@ internal interface IDSCOperations
     /// </summary>
     /// <param name="file">File containing the DSC configuration</param>
     /// <returns>Result of applying the configuration</returns>
-    public Task<IDSCApplicationResult> ApplyConfigurationAsync(IDSCFile file);
+    public Task<IDSCApplySetResult> ApplyConfigurationAsync(IDSCFile file);
 
     /// <summary>
     /// Get details of configuration units in a file
