@@ -3,12 +3,14 @@
 
 using System;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using DSCUI.Services.DesiredStateConfiguration.Contracts;
 using DSCUI.Services.DesiredStateConfiguration.Exceptions;
 using DSCUI.Services.DesiredStateConfiguration.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Management.Configuration;
+using Windows.Foundation;
 using Windows.Storage.Streams;
 
 namespace DSCUI.Services.DesiredStateConfiguration.Services;
@@ -24,17 +26,19 @@ internal sealed class DSCOperations : IDSCOperations
     }
 
     /// <inheritdoc />
-    public async Task<IDSCApplySetResult> ApplyConfigurationAsync(IDSCFile file)
+    public IAsyncOperationWithProgress<IDSCApplySetResult, IDSCSetChangeData> ApplySetAsync(IDSCFile file)
     {
-        var processor = await CreateConfigurationProcessorAsync();
-        var configSet = await OpenConfigurationSetAsync(file, processor);
-
-        _logger.LogInformation("Starting to apply configuration set");
-        var task = processor.ApplySetAsync(configSet, ApplyConfigurationSetFlags.None);
-        var outOfProcResult = await task;
-        var inProcResult = new DSCApplySetResult(configSet, outOfProcResult);
-        _logger.LogInformation($"Apply configuration finished.");
-        return inProcResult;
+        return AsyncInfo.Run<IDSCApplySetResult, IDSCSetChangeData>(async (cancellationToken, progress) => {
+            var processor = await CreateConfigurationProcessorAsync();
+            var configSet = await OpenConfigurationSetAsync(file, processor);
+            _logger.LogInformation("Starting to apply configuration set");
+            var task = processor.ApplySetAsync(configSet, ApplyConfigurationSetFlags.None);
+            task.Progress += (sender, args) => progress.Report(new DSCSetChangeData(args));
+            var outOfProcResult = await task;
+            var inProcResult = new DSCApplySetResult(configSet, outOfProcResult);
+            _logger.LogInformation($"Apply configuration finished.");
+            return inProcResult;
+        });
     }
 
     /// <inheritdoc />

@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.Foundation;
 
 namespace DSCUI.Services.DesiredStateConfiguration.Contracts;
 
 internal interface IDSCOperations
 {
     /// <summary>
-    /// Apply DSC configuration from a file
+    /// Apply a DSC configuration set
     /// </summary>
     /// <param name="file">File containing the DSC configuration</param>
     /// <returns>Result of applying the configuration</returns>
-    public Task<IDSCApplySetResult> ApplyConfigurationAsync(IDSCFile file);
+    public IAsyncOperationWithProgress<IDSCApplySetResult, IDSCSetChangeData> ApplySetAsync(IDSCFile file);
 
     /// <summary>
     /// Get details of configuration units in a file
