@@ -7,5 +7,4 @@ namespace dscui.ViewModels.ConfigurationFlow;
 
 public partial class SelectFileViewModel : ObservableRecipient
 {
-
 }

@@ -13,6 +13,7 @@ public sealed partial class ApplyFilePage : Page, IView<ApplyFileViewModel>
 
     public ApplyFilePage()
     {
+        ViewModel = App.GetService<ApplyFileViewModel>();
         InitializeComponent();
     }
 }
