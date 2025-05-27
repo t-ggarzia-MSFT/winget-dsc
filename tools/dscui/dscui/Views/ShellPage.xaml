@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="using:dscui.ViewModels"
     xmlns:helpers="using:dscui.Helpers"
     xmlns:behaviors="using:dscui.Behaviors"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -36,12 +37,12 @@
             DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
             Header="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}">
             <NavigationView.MenuItems>
-                <NavigationViewItem x:Uid="Shell_Main" helpers:NavigationHelper.NavigateTo="dscui.ViewModels.MainViewModel">
+                <NavigationViewItem x:Uid="Shell_Main" helpers:NavigationHelper.NavigateTo="viewmodels:MainViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_Configuration" helpers:NavigationHelper.NavigateTo="dscui.ViewModels.ConfigurationViewModel">
+                <NavigationViewItem x:Uid="Shell_Configuration" helpers:NavigationHelper.NavigateTo="viewmodels:ConfigurationViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
                     </NavigationViewItem.Icon>

@@ -1,4 +1,7 @@
-﻿using dscui.Activation;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using dscui.Activation;
 using dscui.Contracts.Services;
 using dscui.Core.Contracts.Services;
 using dscui.Core.Services;
@@ -55,7 +58,8 @@ public partial class App : Application
             services.AddTransient<INavigationViewService, NavigationViewService>();
 
             services.AddSingleton<IActivationService, ActivationService>();
-            services.AddSingleton<IPageService, PageService>();
+            services.AddSingleton<IShellPageService, ShellPageService>();
+            services.AddSingleton<IConfigurationPageService, ConfigurationPageService>();
             services.AddSingleton<INavigationService, NavigationService>();
 
             // Core Services

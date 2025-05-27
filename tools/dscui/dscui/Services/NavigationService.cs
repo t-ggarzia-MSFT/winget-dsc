@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 using System.Diagnostics.CodeAnalysis;
 
 using dscui.Contracts.Services;
@@ -9,11 +12,9 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace dscui.Services;
 
-// For more information on navigation between pages see
-// https://github.com/microsoft/TemplateStudio/blob/main/docs/WinUI/navigation.md
 public class NavigationService : INavigationService
 {
-    private readonly IPageService _pageService;
+    private readonly IShellPageService _pageService;
     private object? _lastParameterUsed;
     private Frame? _frame;
 
@@ -43,7 +44,7 @@ public class NavigationService : INavigationService
     [MemberNotNullWhen(true, nameof(Frame), nameof(_frame))]
     public bool CanGoBack => Frame != null && Frame.CanGoBack;
 
-    public NavigationService(IPageService pageService)
+    public NavigationService(IShellPageService pageService)
     {
         _pageService = pageService;
     }
@@ -81,7 +82,7 @@ public class NavigationService : INavigationService
         return false;
     }
 
-    public bool NavigateTo(string pageKey, object? parameter = null, bool clearNavigation = false)
+    public bool NavigateTo(Type pageKey, object? parameter = null, bool clearNavigation = false)
     {
         var pageType = _pageService.GetPageType(pageKey);
 
@@ -107,7 +108,7 @@ public class NavigationService : INavigationService
 
     public bool NavigateTo<T>(object? parameter = null, bool clearNavigation = false)
     {
-        return NavigateTo(typeof(T).FullName!, parameter, clearNavigation);
+        return NavigateTo(typeof(T), parameter, clearNavigation);
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)

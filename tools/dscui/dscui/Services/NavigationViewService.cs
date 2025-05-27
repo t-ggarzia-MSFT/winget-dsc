@@ -12,7 +12,7 @@ public class NavigationViewService : INavigationViewService
 {
     private readonly INavigationService _navigationService;
 
-    private readonly IPageService _pageService;
+    private readonly IShellPageService _pageService;
 
     private NavigationView? _navigationView;
 
@@ -20,7 +20,7 @@ public class NavigationViewService : INavigationViewService
 
     public object? SettingsItem => _navigationView?.SettingsItem;
 
-    public NavigationViewService(INavigationService navigationService, IPageService pageService)
+    public NavigationViewService(INavigationService navigationService, IShellPageService pageService)
     {
         _navigationService = navigationService;
         _pageService = pageService;
@@ -59,13 +59,13 @@ public class NavigationViewService : INavigationViewService
     {
         if (args.IsSettingsInvoked)
         {
-            _navigationService.NavigateTo(typeof(SettingsViewModel).FullName!);
+            _navigationService.NavigateTo<SettingsViewModel>();
         }
         else
         {
             var selectedItem = args.InvokedItemContainer as NavigationViewItem;
 
-            if (selectedItem?.GetValue(NavigationHelper.NavigateToProperty) is string pageKey)
+            if (selectedItem?.GetValue(NavigationHelper.NavigateToProperty) is Type pageKey)
             {
                 _navigationService.NavigateTo(pageKey);
             }
@@ -93,7 +93,7 @@ public class NavigationViewService : INavigationViewService
 
     private bool IsMenuItemForPageType(NavigationViewItem menuItem, Type sourcePageType)
     {
-        if (menuItem.GetValue(NavigationHelper.NavigateToProperty) is string pageKey)
+        if (menuItem.GetValue(NavigationHelper.NavigateToProperty) is Type pageKey)
         {
             return _pageService.GetPageType(pageKey) == sourcePageType;
         }
