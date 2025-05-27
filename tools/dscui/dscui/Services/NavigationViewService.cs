@@ -10,9 +10,9 @@ namespace dscui.Services;
 
 public class NavigationViewService : INavigationViewService
 {
-    private readonly INavigationService _navigationService;
+    private readonly IAppNavigationService _navigationService;
 
-    private readonly IShellPageService _pageService;
+    private readonly IAppPageService _pageService;
 
     private NavigationView? _navigationView;
 
@@ -20,7 +20,7 @@ public class NavigationViewService : INavigationViewService
 
     public object? SettingsItem => _navigationView?.SettingsItem;
 
-    public NavigationViewService(INavigationService navigationService, IShellPageService pageService)
+    public NavigationViewService(IAppNavigationService navigationService, IAppPageService pageService)
     {
         _navigationService = navigationService;
         _pageService = pageService;

@@ -3,6 +3,6 @@
 
 namespace dscui.Contracts.Services;
 
-public interface IShellPageService : IPageService
+public interface IAppPageService : IPageService
 {
 }

@@ -58,9 +58,10 @@ public partial class App : Application
             services.AddTransient<INavigationViewService, NavigationViewService>();
 
             services.AddSingleton<IActivationService, ActivationService>();
-            services.AddSingleton<IShellPageService, ShellPageService>();
+            services.AddSingleton<IAppPageService, AppPageService>();
             services.AddSingleton<IConfigurationPageService, ConfigurationPageService>();
-            services.AddSingleton<INavigationService, NavigationService>();
+            services.AddSingleton<IAppNavigationService, AppNavigationService>();
+            services.AddSingleton<IConfigurationNavigationService, ConfigurationNavigationService>();
 
             // Core Services
             services.AddSingleton<IFileService, FileService>();

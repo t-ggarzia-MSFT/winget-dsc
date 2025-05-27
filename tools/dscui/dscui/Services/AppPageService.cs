@@ -7,7 +7,7 @@ using dscui.Views;
 
 namespace dscui.Services;
 
-internal class ShellPageService : PageService, IShellPageService
+internal class AppPageService : PageService, IAppPageService
 {
     protected override void ConfigurePages()
     {

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Diagnostics.CodeAnalysis;
-
 using dscui.Contracts.Services;
 using dscui.Contracts.ViewModels;
 using dscui.Helpers;
@@ -12,13 +11,18 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace dscui.Services;
 
-public class NavigationService : INavigationService
+internal class NavigationService
 {
-    private readonly IShellPageService _pageService;
+    private readonly IPageService _pageService;
     private object? _lastParameterUsed;
     private Frame? _frame;
 
     public event NavigatedEventHandler? Navigated;
+
+    public NavigationService(IPageService pageService)
+    {
+        _pageService = pageService;
+    }
 
     public Frame? Frame
     {
@@ -26,7 +30,7 @@ public class NavigationService : INavigationService
         {
             if (_frame == null)
             {
-                _frame = App.MainWindow.Content as Frame;
+                _frame = GetDefaultFrame();
                 RegisterFrameEvents();
             }
 
@@ -44,10 +48,7 @@ public class NavigationService : INavigationService
     [MemberNotNullWhen(true, nameof(Frame), nameof(_frame))]
     public bool CanGoBack => Frame != null && Frame.CanGoBack;
 
-    public NavigationService(IShellPageService pageService)
-    {
-        _pageService = pageService;
-    }
+    protected virtual Frame? GetDefaultFrame() => null;
 
     private void RegisterFrameEvents()
     {

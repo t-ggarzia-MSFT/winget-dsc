@@ -7,9 +7,9 @@ namespace dscui.Activation;
 
 public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventArgs>
 {
-    private readonly INavigationService _navigationService;
+    private readonly IAppNavigationService _navigationService;
 
-    public DefaultActivationHandler(INavigationService navigationService)
+    public DefaultActivationHandler(IAppNavigationService navigationService)
     {
         _navigationService = navigationService;
     }

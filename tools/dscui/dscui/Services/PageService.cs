@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using dscui.Contracts.Services;
 using Microsoft.UI.Xaml.Controls;
 
 namespace dscui.Services;
 
-internal abstract class PageService : IPageService
+internal abstract class PageService
 {
     private readonly Dictionary<string, Type> _pages = new();
 

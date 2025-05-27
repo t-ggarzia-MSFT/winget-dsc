@@ -15,17 +15,11 @@ public partial class ShellViewModel : ObservableRecipient
     [ObservableProperty]
     private object? selected;
 
-    public INavigationService NavigationService
-    {
-        get;
-    }
+    public IAppNavigationService NavigationService { get; }
 
-    public INavigationViewService NavigationViewService
-    {
-        get;
-    }
+    public INavigationViewService NavigationViewService { get; }
 
-    public ShellViewModel(INavigationService navigationService, INavigationViewService navigationViewService)
+    public ShellViewModel(IAppNavigationService navigationService, INavigationViewService navigationViewService)
     {
         NavigationService = navigationService;
         NavigationService.Navigated += OnNavigated;

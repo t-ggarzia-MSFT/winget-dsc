@@ -7,9 +7,9 @@ namespace dscui.ViewModels;
 
 public partial class MainViewModel : ObservableRecipient
 {
-    private readonly INavigationService _navigationService;
+    private readonly IAppNavigationService _navigationService;
 
-    public MainViewModel(INavigationService navigationService)
+    public MainViewModel(IAppNavigationService navigationService)
     {
         _navigationService = navigationService;
     }
