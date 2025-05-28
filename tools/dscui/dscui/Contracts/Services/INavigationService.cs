@@ -24,5 +24,7 @@ public interface INavigationService
 
     bool NavigateTo<T>(object? parameter = null, bool clearNavigation = false);
 
+    bool NavigateToDefaultPage(object? parameter = null, bool clearNavigation = false);
+
     bool GoBack();
 }

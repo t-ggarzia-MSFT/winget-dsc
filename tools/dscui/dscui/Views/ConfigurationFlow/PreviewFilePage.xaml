@@ -15,7 +15,7 @@
 
     <Page.Resources>
         <ResourceDictionary>
-             <converters:StringVisibilityConverter x:Key="StringVisibilityConverter"/>
+            <converters:StringVisibilityConverter x:Key="StringVisibilityConverter"/>
             <converters:EmptyObjectToObjectConverter x:Key="EmptyObjectToVisibilityConverter" EmptyValue="Visible" NotEmptyValue="Collapsed"/>
 
             <converters:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter" />
@@ -43,6 +43,11 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style TargetType="ListView" x:Key="KeyValueSubList" BasedOn="{StaticResource KeyValueList}">
+                <Setter Property="Margin" Value="10,0" />
+            </Style>
+            <x:Double x:Key="SectionSpacing">10</x:Double>
+            <Thickness x:Key="BlockThickness">0,0,0,5</Thickness>
         </ResourceDictionary>
     </Page.Resources>
     
@@ -50,6 +55,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <InfoBar
@@ -192,5 +198,10 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+            <Button Content="Previous" MinWidth="120" Command="{x:Bind ViewModel.BackCommand}" />
+            <Button Content="Apply" Style="{ThemeResource AccentButtonStyle}" MinWidth="120" Command="{x:Bind ViewModel.ApplyCommand}" />
+        </StackPanel>
     </Grid>
 </Page>

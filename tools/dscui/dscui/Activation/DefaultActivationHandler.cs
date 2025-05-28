@@ -1,5 +1,4 @@
 using dscui.Contracts.Services;
-using dscui.ViewModels;
 
 using Microsoft.UI.Xaml;
 
@@ -22,8 +21,7 @@ public class DefaultActivationHandler : ActivationHandler<LaunchActivatedEventAr
 
     protected async override Task HandleInternalAsync(LaunchActivatedEventArgs args)
     {
-        _navigationService.NavigateTo<MainViewModel>(args.Arguments);
-
+        _navigationService.NavigateToDefaultPage();
         await Task.CompletedTask;
     }
 }

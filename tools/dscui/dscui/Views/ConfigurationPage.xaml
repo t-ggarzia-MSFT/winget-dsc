@@ -10,6 +10,6 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Frame x:Name="ConfigurationFrame" />
+        <Frame x:Name="NavigationFrame" />
     </Grid>
 </Page>

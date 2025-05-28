@@ -13,5 +13,8 @@ public sealed partial class ConfigurationPage : Page, IView<ConfigurationViewMod
     {
         ViewModel = App.GetService<ConfigurationViewModel>();
         InitializeComponent();
+
+        ViewModel.NavigationService.Frame = NavigationFrame;
+        ViewModel.NavigationService.NavigateToDefaultPage();
     }
 }
