@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Threading.Tasks;
+using Windows.Foundation;
 
 namespace DSCUI.Services.DesiredStateConfiguration.Contracts;
 
@@ -13,12 +14,12 @@ public interface IDSC
     /// <inheritdoc cref="IDSCDeployment.UnstubAsync" />
     public Task<bool> UnstubAsync();
 
-    /// <inheritdoc cref="IDSCOperations.ApplyConfigurationAsync" />
-    public Task<IDSCApplicationResult> ApplyConfigurationAsync(IDSCFile file);
+    /// <inheritdoc cref="IDSCOperations.OpenConfigurationSetAsync" />
+    public Task<IDSCSet> OpenConfigurationSetAsync(IDSCFile file);
 
-    /// <inheritdoc cref="IDSCOperations.GetConfigurationUnitDetailsAsync" />
-    public Task<IDSCSet> GetConfigurationUnitDetailsAsync(IDSCFile file);
+    /// <inheritdoc cref="IDSCOperations.ApplySetAsync" />
+    public IAsyncOperationWithProgress<IDSCApplySetResult, IDSCSetChangeData> ApplySetAsync(IDSCSet set);
 
-    /// <inheritdoc cref="IDSCOperations.ValidateConfigurationAsync" />
-    public Task ValidateConfigurationAsync(IDSCFile file);
+    /// <inheritdoc cref="IDSCOperations.GetConfigurationUnitDetails" />
+    public void GetConfigurationUnitDetails(IDSCSet set);
 }

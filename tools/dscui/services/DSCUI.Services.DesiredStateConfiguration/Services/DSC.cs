@@ -3,6 +3,7 @@
 
 using System.Threading.Tasks;
 using DSCUI.Services.DesiredStateConfiguration.Contracts;
+using Windows.Foundation;
 
 namespace DSCUI.Services.DesiredStateConfiguration.Services;
 
@@ -24,11 +25,11 @@ internal sealed class DSC : IDSC
     public async Task<bool> UnstubAsync() => await _dscDeployment.UnstubAsync();
 
     /// <inheritdoc/>
-    public async Task<IDSCApplicationResult> ApplyConfigurationAsync(IDSCFile file) => await _dscOperations.ApplyConfigurationAsync(file);
+    public Task<IDSCSet> OpenConfigurationSetAsync(IDSCFile file) => _dscOperations.OpenConfigurationSetAsync(file);
 
     /// <inheritdoc/>
-    public async Task<IDSCSet> GetConfigurationUnitDetailsAsync(IDSCFile file) => await _dscOperations.GetConfigurationUnitDetailsAsync(file);
+    public IAsyncOperationWithProgress<IDSCApplySetResult, IDSCSetChangeData> ApplySetAsync(IDSCSet set) => _dscOperations.ApplySetAsync(set);
 
     /// <inheritdoc/>
-    public async Task ValidateConfigurationAsync(IDSCFile file) => await _dscOperations.ValidateConfigurationAsync(file);
+    public void GetConfigurationUnitDetails(IDSCSet set) => _dscOperations.GetConfigurationUnitDetails(set);
 }

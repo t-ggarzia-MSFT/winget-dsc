@@ -76,7 +76,7 @@ public sealed partial class ShellPage : Page, IView<ShellViewModel>
 
     private static void OnKeyboardAcceleratorInvoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
     {
-        var navigationService = App.GetService<INavigationService>();
+        var navigationService = App.GetService<IAppNavigationService>();
 
         var result = navigationService.GoBack();
 

@@ -1,41 +1,62 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-using dscui.Contracts.Services;
-using dscui.ViewModels;
-using dscui.Views;
-
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 
 namespace dscui.Services;
 
-public class PageService : IPageService
+internal abstract class PageService
 {
     private readonly Dictionary<string, Type> _pages = new();
 
     public PageService()
     {
-        Configure<MainViewModel, MainPage>();
-        Configure<ConfigurationViewModel, ConfigurationPage>();
-        Configure<ValidationViewModel, ValidationPage>();
-        Configure<ValidationListViewModel, ValidationListPage>();
-        Configure<SettingsViewModel, SettingsPage>();
+        ConfigurePages();
     }
 
-    public Type GetPageType(string key)
+    /// <summary>
+    /// Configures the pages for the application.
+    /// </summary>
+    protected abstract void ConfigurePages();
+
+    /// <summary>
+    /// Gets the page type associated with the specified typeparamref name="VM"/>.
+    /// </summary>
+    /// <typeparam name="VM">ViewModel type that is associated with the page.</typeparam>
+    /// <returns>Type of the page associated with the specified ViewModel type.</returns>
+    public Type GetPageType<VM>()
+        where VM : ObservableObject
+    {
+        return GetPageType(typeof(VM));
+    }
+
+    /// <summary>
+    /// Gets the page type associated with the specified ViewModel type.
+    /// </summary>
+    /// <param name="viewModelType">Type of the ViewModel that is associated with the page.</param>
+    /// <returns>Type of the page associated with the specified ViewModel type.</returns>
+    public Type GetPageType(Type viewModelType)
     {
         Type? pageType;
+        var key = viewModelType.FullName!;
         lock (_pages)
         {
             if (!_pages.TryGetValue(key, out pageType))
             {
-                throw new ArgumentException($"Page not found: {key}. Did you forget to call PageService.Configure?");
+                throw new ArgumentException($"Page not found: {key}.");
             }
         }
 
         return pageType;
     }
 
-    private void Configure<VM, V>()
+    /// <summary>
+    /// Configures a page with the specified ViewModel and Page types.
+    /// </summary>
+    /// <typeparam name="VM">ViewModel type that is associated with the page.</typeparam>
+    /// <typeparam name="V">Page type that is associated with the ViewModel.</typeparam>
+    protected void Configure<VM, V>()
         where VM : ObservableObject
         where V : Page
     {
@@ -44,7 +65,7 @@ public class PageService : IPageService
             var key = typeof(VM).FullName!;
             if (_pages.ContainsKey(key))
             {
-                throw new ArgumentException($"The key {key} is already configured in PageService");
+                throw new ArgumentException($"The key {key} is already configured");
             }
 
             var type = typeof(V);

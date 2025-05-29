@@ -1,11 +1,16 @@
-﻿using dscui.Activation;
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using dscui.Activation;
 using dscui.Contracts.Services;
 using dscui.Core.Contracts.Services;
 using dscui.Core.Services;
 using dscui.Models;
 using dscui.Services;
 using dscui.ViewModels;
+using dscui.ViewModels.ConfigurationFlow;
 using dscui.Views;
+using dscui.Views.ConfigurationFlow;
 using DSCUI.Services.DesiredStateConfiguration.Extensions;
 using DSCUI.Services.WindowsPackageManager.Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,18 +19,9 @@ using Microsoft.UI.Xaml;
 
 namespace dscui;
 
-// To learn more about WinUI 3, see https://docs.microsoft.com/windows/apps/winui/winui3/.
 public partial class App : Application
 {
-    // The .NET Generic Host provides dependency injection, configuration, logging, and other services.
-    // https://docs.microsoft.com/dotnet/core/extensions/generic-host
-    // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
-    // https://docs.microsoft.com/dotnet/core/extensions/configuration
-    // https://docs.microsoft.com/dotnet/core/extensions/logging
-    public IHost Host
-    {
-        get;
-    }
+    public IHost Host { get; }
 
     public static T GetService<T>()
         where T : class
@@ -60,10 +56,13 @@ public partial class App : Application
             services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
             services.AddTransient<INavigationViewService, NavigationViewService>();
+            services.AddTransient<IStringResource, StringResource>();
 
             services.AddSingleton<IActivationService, ActivationService>();
-            services.AddSingleton<IPageService, PageService>();
-            services.AddSingleton<INavigationService, NavigationService>();
+            services.AddSingleton<IAppPageService, AppPageService>();
+            services.AddSingleton<IConfigurationPageService, ConfigurationPageService>();
+            services.AddSingleton<IAppNavigationService, AppNavigationService>();
+            services.AddSingleton<IConfigurationNavigationService, ConfigurationNavigationService>();
 
             // Core Services
             services.AddSingleton<IFileService, FileService>();
@@ -83,6 +82,12 @@ public partial class App : Application
             services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
+            services.AddTransient<SelectFilePage>();
+            services.AddTransient<SelectFileViewModel>();
+            services.AddTransient<PreviewFilePage>();
+            services.AddTransient<PreviewFileViewModel>();
+            services.AddTransient<ApplyFilePage>();
+            services.AddTransient<ApplyFileViewModel>();
 
             // Factories
             services.AddSingleton<ValidationViewModelFactory>(sp => () => ActivatorUtilities.CreateInstance<ValidationViewModel>(sp));

@@ -3,12 +3,14 @@
 
 using System;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using DSCUI.Services.DesiredStateConfiguration.Contracts;
 using DSCUI.Services.DesiredStateConfiguration.Exceptions;
 using DSCUI.Services.DesiredStateConfiguration.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Management.Configuration;
+using Windows.Foundation;
 using Windows.Storage.Streams;
 
 namespace DSCUI.Services.DesiredStateConfiguration.Services;
@@ -23,34 +25,47 @@ internal sealed class DSCOperations : IDSCOperations
         _logger = logger;
     }
 
-    /// <inheritdoc />
-    public async Task<IDSCApplicationResult> ApplyConfigurationAsync(IDSCFile file)
+    public async Task<IDSCSet> OpenConfigurationSetAsync(IDSCFile file)
     {
         var processor = await CreateConfigurationProcessorAsync();
-        var configSet = await OpenConfigurationSetAsync(file, processor);
-
-        _logger.LogInformation("Starting to apply configuration set");
-        var outOfProcResult = await processor.ApplySetAsync(configSet, ApplyConfigurationSetFlags.None);
-        var inProcResult = new DSCApplicationResult(configSet, outOfProcResult);
-        _logger.LogInformation($"Apply configuration finished. HResult: {inProcResult.ResultException?.HResult}");
-        return inProcResult;
+        var outOfProcResult = await OpenConfigurationSetAsync(file, processor);
+        return new DSCSet(processor, outOfProcResult);
     }
 
     /// <inheritdoc />
-    public async Task<IDSCSet> GetConfigurationUnitDetailsAsync(IDSCFile file)
+    public IAsyncOperationWithProgress<IDSCApplySetResult, IDSCSetChangeData> ApplySetAsync(IDSCSet inputSet)
     {
-        var processor = await CreateConfigurationProcessorAsync();
-        var configSet = await OpenConfigurationSetAsync(file, processor);
+        if (inputSet is not DSCSet dscSet)
+        {
+            throw new ArgumentException($"{nameof(inputSet)} must be of type {nameof(DSCSet)}", nameof(inputSet));
+        }
+
+        return AsyncInfo.Run<IDSCApplySetResult, IDSCSetChangeData>(async (cancellationToken, progress) => {
+            _logger.LogInformation("Starting to apply configuration set");
+            var task = dscSet.Processor.ApplySetAsync(dscSet.ConfigSet, ApplyConfigurationSetFlags.None);
+            task.Progress += (sender, args) => progress.Report(new DSCSetChangeData(args));
+            var outOfProcResult = await task;
+            var inProcResult = new DSCApplySetResult(inputSet, outOfProcResult);
+            _logger.LogInformation($"Apply configuration finished.");
+            return inProcResult;
+        });
+    }
+
+    /// <inheritdoc />
+    public void GetConfigurationUnitDetails(IDSCSet inputSet)
+    {
+        if (inputSet is not DSCSet dscSet)
+        {
+            throw new ArgumentException($"{nameof(inputSet)} must be of type {nameof(DSCSet)}", nameof(inputSet));
+        }
 
         _logger.LogInformation("Getting configuration unit details");
-        var detailsOperation = processor.GetSetDetailsAsync(configSet, ConfigurationUnitDetailFlags.ReadOnly);
+        var detailsOperation = dscSet.Processor.GetSetDetailsAsync(dscSet.ConfigSet, ConfigurationUnitDetailFlags.ReadOnly);
         var detailsOperationTask = detailsOperation.AsTask();
-
-        var set = new DSCSet(configSet);
 
         // For each DSC unit, create a task to get the details asynchronously
         // in the background
-        foreach (var unit in set.UnitsInternal)
+        foreach (var unit in dscSet.UnitsInternal)
         {
             unit.SetLoadDetailsTask(Task.Run<IDSCUnitDetails>(async () =>
             {
@@ -58,7 +73,7 @@ internal sealed class DSCOperations : IDSCOperations
                 {
                     await detailsOperationTask;
                     _logger.LogInformation($"Settings details for unit {unit.InstanceId}");
-                    return GetCompleteUnitDetails(configSet, unit.InstanceId);
+                    return GetCompleteUnitDetails(dscSet.ConfigSet, unit.InstanceId);
                 }
                 catch (Exception ex)
                 {
@@ -67,17 +82,6 @@ internal sealed class DSCOperations : IDSCOperations
                 }
             }));
         }
-
-        return set;
-    }
-
-    /// <inheritdoc />
-    public async Task ValidateConfigurationAsync(IDSCFile file)
-    {
-        // Try to open the configuration file to validate it.
-        _logger.LogInformation("Validating configuration file");
-        var processor = await CreateConfigurationProcessorAsync();
-        await OpenConfigurationSetAsync(file, processor);
     }
 
     /// <summary>

@@ -1,5 +1,7 @@
-using System.Diagnostics.CodeAnalysis;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
+using System.Diagnostics.CodeAnalysis;
 using dscui.Contracts.Services;
 using dscui.Contracts.ViewModels;
 using dscui.Helpers;
@@ -9,9 +11,7 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace dscui.Services;
 
-// For more information on navigation between pages see
-// https://github.com/microsoft/TemplateStudio/blob/main/docs/WinUI/navigation.md
-public class NavigationService : INavigationService
+internal class NavigationService
 {
     private readonly IPageService _pageService;
     private object? _lastParameterUsed;
@@ -19,13 +19,18 @@ public class NavigationService : INavigationService
 
     public event NavigatedEventHandler? Navigated;
 
+    public NavigationService(IPageService pageService)
+    {
+        _pageService = pageService;
+    }
+
     public Frame? Frame
     {
         get
         {
             if (_frame == null)
             {
-                _frame = App.MainWindow.Content as Frame;
+                _frame = GetDefaultFrame();
                 RegisterFrameEvents();
             }
 
@@ -43,10 +48,7 @@ public class NavigationService : INavigationService
     [MemberNotNullWhen(true, nameof(Frame), nameof(_frame))]
     public bool CanGoBack => Frame != null && Frame.CanGoBack;
 
-    public NavigationService(IPageService pageService)
-    {
-        _pageService = pageService;
-    }
+    protected virtual Frame? GetDefaultFrame() => null;
 
     private void RegisterFrameEvents()
     {
@@ -81,7 +83,7 @@ public class NavigationService : INavigationService
         return false;
     }
 
-    public bool NavigateTo(string pageKey, object? parameter = null, bool clearNavigation = false)
+    public bool NavigateTo(Type pageKey, object? parameter = null, bool clearNavigation = false)
     {
         var pageType = _pageService.GetPageType(pageKey);
 
@@ -107,7 +109,7 @@ public class NavigationService : INavigationService
 
     public bool NavigateTo<T>(object? parameter = null, bool clearNavigation = false)
     {
-        return NavigateTo(typeof(T).FullName!, parameter, clearNavigation);
+        return NavigateTo(typeof(T), parameter, clearNavigation);
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)
