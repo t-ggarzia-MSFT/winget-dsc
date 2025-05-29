@@ -16,6 +16,8 @@ public class PageService : IPageService
     {
         Configure<MainViewModel, MainPage>();
         Configure<ConfigurationViewModel, ConfigurationPage>();
+        Configure<ValidationViewModel, ValidationPage>();
+        Configure<ValidationListViewModel, ValidationListPage>();
         Configure<SettingsViewModel, SettingsPage>();
     }
 

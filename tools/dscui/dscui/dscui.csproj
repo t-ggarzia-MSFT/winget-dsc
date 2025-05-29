@@ -13,7 +13,11 @@
 	<Nullable>enable</Nullable>
 	<UseWinUI>true</UseWinUI>
     <EnableMsixTooling>true</EnableMsixTooling>
+	<LangVersion>preview</LangVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Views\ValidationListPage.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
@@ -23,7 +27,9 @@
     <PackageReference Include="CommunityToolkit.Common" Version="8.4.0" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.250129-preview2" />
-    <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250129-preview2" />
+	<PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.250129-preview2" />
+	<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250129-preview2" />
+	<PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.2.250402" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250310001" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
@@ -39,6 +45,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\ValidationListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">

@@ -75,10 +75,17 @@ public partial class App : Application
             services.AddTransient<SettingsPage>();
             services.AddTransient<ConfigurationViewModel>();
             services.AddTransient<ConfigurationPage>();
+            services.AddTransient<ValidationViewModel>();
+            services.AddTransient<ValidationPage>();
+            services.AddSingleton<ValidationListViewModel>();
+            services.AddTransient<ValidationListPage>();
             services.AddTransient<MainViewModel>();
             services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
+
+            // Factories
+            services.AddSingleton<ValidationViewModelFactory>(sp => () => ActivatorUtilities.CreateInstance<ValidationViewModel>(sp));
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));

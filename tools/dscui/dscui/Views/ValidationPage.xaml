@@ -1,0 +1,172 @@
+<Page  
+    x:Class="dscui.Views.ValidationPage"  
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"  
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:ui="using:CommunityToolkit.WinUI"
+    xmlns:model="using:dscui.Models"
+    xmlns:selectors="using:dscui.Selectors"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityNegationConverter" TrueValue="Collapsed" FalseValue="Visible" />
+        <converters:BoolToObjectConverter x:Key="BoolToIntConverter" TrueValue="1" FalseValue="0"/>
+        <converters:BoolToObjectConverter x:Key="BoolToIntNegationConverter" TrueValue="0" FalseValue="1"/>
+        <DataTemplate x:Key="StringTemplate" x:DataType="model:ConfigurationProperty">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBox Text="{Binding Name, Mode=TwoWay}" MinWidth="150"/>
+                <TextBlock Text="{Binding Value.Type}" MinWidth="50"/>
+                <TextBox Text="{Binding Value.Value, Mode=TwoWay}" MinWidth="250"/>
+                <Button Click="RemoveValidationProperty">
+                    <FontIcon Glyph="&#xE894;" FontSize="14"/>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="BooleanTemplate" x:DataType="model:ConfigurationProperty">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBox Text="{Binding Name, Mode=TwoWay}" MinWidth="150"/>
+                <TextBlock Text="{Binding Value.Type}" MinWidth="50"/>
+                <ComboBox SelectedIndex="{Binding Value.Value, Mode=TwoWay, Converter={StaticResource BoolToIntNegationConverter}}" Width="250">
+                    <x:String>True</x:String>
+                    <x:String>False</x:String>
+                </ComboBox>
+                <Button Click="RemoveValidationProperty">
+                    <FontIcon Glyph="&#xE894;" FontSize="14"/>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="NumberTemplate" x:DataType="model:ConfigurationProperty">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <TextBox Text="{Binding Name, Mode=TwoWay}" MinWidth="150"/>
+                <TextBlock Text="{Binding Value.Type}" MinWidth="50"/>
+                <NumberBox Value="{Binding Value.Value, Mode=TwoWay}" MinWidth="250"/>
+                <Button Click="RemoveValidationProperty">
+                    <FontIcon Glyph="&#xE894;" FontSize="14"/>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ArrayTemplate" x:DataType="model:ConfigurationProperty">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBox Text="{Binding Name, Mode=TwoWay}" MinWidth="150"/>
+                    <TextBlock Text="{Binding Value.Type}" MinWidth="50"/>
+
+                    <Button Click="RemoveValidationProperty">
+                        <FontIcon Glyph="&#xE894;" FontSize="14"/>
+                    </Button>
+                </StackPanel>
+                <ListView
+         ItemsSource="{Binding Value.Value}">
+
+                    <ListView.ItemTemplateSelector>
+                        <selectors:PropertyTemplateSelector
+                 Boolean="{StaticResource BooleanTemplate}"
+                 Number="{StaticResource NumberTemplate}"
+                 String="{StaticResource StringTemplate}"
+                 Array="{StaticResource ArrayTemplate}"/>
+                    </ListView.ItemTemplateSelector>
+                </ListView>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid x:Name="ContentArea" Padding="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ScrollView Margin="0,12,0,0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
+            <StackPanel HorizontalAlignment="Left" Spacing="12">
+
+                <controls:Segmented Margin="0,8,0,0" SelectedIndex="{Binding IsV3, Mode=TwoWay, Converter={StaticResource BoolToIntConverter}}">
+                    <controls:SegmentedItem Content="DSCv2"/>
+                    <controls:SegmentedItem Content="DSCv3"/>
+                </controls:Segmented>
+                <StackPanel Visibility="{Binding IsV3, Mode=OneWay, Converter={StaticResource BoolToVisibilityNegationConverter}}">
+                    <TextBlock x:Uid="ValidationModuleInputHeaderV2" Margin="0,0,0,8"/>
+                    <TextBox x:Uid="ValidationModuleInputV2" Width="Auto" Text="{Binding ModuleName, Mode=TwoWay}"/>
+                </StackPanel>
+
+                <StackPanel Visibility="{Binding IsV3}">
+                    <TextBlock x:Uid="ValidationModuleInputHeaderV3"  Margin="0,0,0,8"/>
+                    <TextBox x:Uid="ValidationModuleInputV3" Width="Auto" Text="{Binding ModuleName, Mode=TwoWay}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <controls:Segmented Margin="0,8,0,0" SelectedIndex="{Binding ShowRawData, Mode=TwoWay, Converter={StaticResource BoolToIntConverter}}">
+                        <controls:SegmentedItem Content="Formatted Data"/>
+                        <controls:SegmentedItem Content="Raw Data"/>
+                    </controls:Segmented>
+
+                </StackPanel>
+                <StackPanel Visibility="{Binding ShowRawData, Mode=OneWay, Converter={StaticResource BoolToVisibilityNegationConverter}}">
+
+                    <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                        <TextBlock Text="Name" MinWidth="150" FontWeight="Bold"/>
+                        <TextBlock Text="Type" MinWidth="50" FontWeight="Bold"/>
+                        <TextBlock Text="Value" MinWidth="250" FontWeight="Bold"/>
+                    </StackPanel>
+
+                    <ListView
+                        Width="Auto"
+                        Height="Auto"
+                        ItemsSource="{Binding Properties}"
+                        CanBeScrollAnchor="True"
+                        CanDragItems="True"
+                        IsItemClickEnabled="False"
+                        SelectionMode="None"
+                        AllowDrop="True"
+                        >
+                        <ListView.ItemTemplateSelector>
+                            <selectors:PropertyTemplateSelector
+                                Boolean="{StaticResource BooleanTemplate}"
+                                Number="{StaticResource NumberTemplate}"
+                                String="{StaticResource StringTemplate}"
+                                Array="{StaticResource ArrayTemplate}"/>
+                        </ListView.ItemTemplateSelector>
+                    </ListView>
+
+                    <SplitButton Click="NewValidationPropertyDefault" Margin="0,8,0,0">
+                        <FontIcon Glyph="&#xE710;" FontSize="14"/>
+                        <SplitButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="String" Click="NewValidationProperty" Tag="Str"/>
+                                <MenuFlyoutItem Text="Boolean" Click="NewValidationProperty" Tag="Bool"/>
+                                <MenuFlyoutItem Text="Number" Click="NewValidationProperty" Tag="Num"/>
+                                <MenuFlyoutItem Text="Array" Click="NewValidationProperty" Tag="Arr"/>
+                                <MenuFlyoutItem Text="Object" Click="NewValidationProperty" Tag="Obj"/>
+                            </MenuFlyout>
+                        </SplitButton.Flyout>
+                    </SplitButton>
+                </StackPanel>
+                <TextBox
+                    Width="Auto"
+                    Height="Auto"
+                    Text="{Binding RawData, Mode=TwoWay}"
+                    Margin="0,8,0,0"
+                    MinHeight="100"
+                    AcceptsReturn="True"
+                    TextWrapping="Wrap"
+                    Visibility="{Binding ShowRawData, Mode=OneWay}"/>
+                <Button Click="CopyToClipboard">
+                    <FontIcon Glyph="&#xE8C8;" />
+                </Button>
+            </StackPanel>
+        </ScrollView>
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button Content="Get" Command="{Binding GetCommand}"/>
+            <Button Content="Set" Command="{Binding SetCommand}"/>
+            <Button Content="Test" Command="{Binding TestCommand}"/>
+            <Button Content="Export" Command="{Binding ExportCommand}"/>
+        </StackPanel>
+    </Grid>
+</Page>

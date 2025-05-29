@@ -1,4 +1,5 @@
-﻿using dscui.Contracts.Services;
+﻿using System.Diagnostics;
+using dscui.Contracts.Services;
 using dscui.Contracts.Views;
 using dscui.Helpers;
 using dscui.ViewModels;
