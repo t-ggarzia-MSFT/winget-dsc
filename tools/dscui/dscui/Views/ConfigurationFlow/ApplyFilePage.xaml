@@ -7,7 +7,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:models="using:dscui.Models"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
+
+    <i:Interaction.Behaviors>
+        <ic:EventTriggerBehavior EventName="Loaded">
+            <ic:InvokeCommandAction Command="{x:Bind ViewModel.LoadedCommand}" />
+        </ic:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+
     <Grid RowSpacing="24">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -20,6 +30,46 @@
             <ProgressBar IsIndeterminate="True" />
         </StackPanel>
 
+        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Units}" Grid.Row="1">
+            <ItemsRepeater.ItemTemplate>
+                <DataTemplate x:DataType="models:ApplySetUnit">
+                    <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <Expander.Header>
+                            <StackPanel HorizontalAlignment="Left" Spacing="8" Orientation="Horizontal">
+                                <controls:SwitchPresenter Value="{x:Bind State, Mode=OneWay}" TargetType="models:ApplySetUnitState">
+                                    <controls:Case Value="Failed">
+                                        <FontIcon Glyph="&#xEA39;" Foreground="{ThemeResource SystemFillColorCriticalBrush}" />
+                                    </controls:Case>
+                                    <controls:Case Value="Succeeded">
+                                        <FontIcon Glyph="&#xE930;" Foreground="{ThemeResource SystemFillColorSuccessBrush}" />
+                                    </controls:Case>
+                                    <controls:Case Value="Skipped">
+                                        <FontIcon Glyph="&#xE783;" Foreground="{ThemeResource SystemFillColorCautionBrush}" />
+                                    </controls:Case>
+                                    <controls:Case Value="InProgress">
+                                        <ProgressRing Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+                                                  Height="{ThemeResource BodyTextBlockFontSize}"
+                                                  Width="{ThemeResource BodyTextBlockFontSize}"/>
+                                    </controls:Case>
+                                    <controls:Case Value="NotStarted">
+                                        <FontIcon Glyph="&#xF138;" Foreground="{ThemeResource TextFillColorTertiaryBrush}" />
+                                    </controls:Case>
+                                </controls:SwitchPresenter>
+                                <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Text="{x:Bind Unit.Title}" />
+                            </StackPanel>
+                        </Expander.Header>
+                        <Expander.Content>
+                            <StackPanel Spacing="8">
+                                <labs:Shimmer />
+                                <labs:Shimmer />
+                            </StackPanel>
+                        </Expander.Content>
+                    </Expander>
+                </DataTemplate>
+            </ItemsRepeater.ItemTemplate>
+        </ItemsRepeater>
+
+        <!--
         <StackPanel Spacing="8" Grid.Row="1">
             <Expander HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <Expander.Header>
@@ -98,6 +148,7 @@
                 </Expander.Content>
             </Expander>
         </StackPanel>
+        -->
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
             <Button Content="Done" Style="{ThemeResource AccentButtonStyle}" MinWidth="120" Command="{x:Bind ViewModel.DoneCommand}" />

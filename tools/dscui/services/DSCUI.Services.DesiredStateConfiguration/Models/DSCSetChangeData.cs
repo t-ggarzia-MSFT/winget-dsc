@@ -26,9 +26,9 @@ internal class DSCSetChangeData : IDSCSetChangeData
     public DSCSetChangeData(ConfigurationSetChangeData changeData)
     {
         Change = changeData.Change;
-        ResultInformation = new DSCUnitResultInformation(changeData.ResultInformation);
+        ResultInformation = changeData.ResultInformation == null ? null : new DSCUnitResultInformation(changeData.ResultInformation);
         SetState = changeData.SetState;
-        Unit = new DSCUnit(changeData.Unit);
+        Unit = changeData.Unit == null ? null : new DSCUnit(changeData.Unit);
         UnitState = changeData.UnitState;
     }
 }

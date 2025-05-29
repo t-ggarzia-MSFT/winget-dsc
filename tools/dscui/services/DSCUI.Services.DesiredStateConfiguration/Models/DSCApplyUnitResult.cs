@@ -18,7 +18,7 @@ internal sealed class DSCApplyUnitResult : IDSCApplyUnitResult
         State = unitResult.State;
         PreviouslyInDesiredState = unitResult.PreviouslyInDesiredState;
         RebootRequired = unitResult.RebootRequired;
-        ResultInformation = new DSCUnitResultInformation(unitResult.ResultInformation);
+        ResultInformation = unitResult.ResultInformation == null ? null : new DSCUnitResultInformation(unitResult.ResultInformation);
     }
 
     public IDSCUnit Unit { get; }

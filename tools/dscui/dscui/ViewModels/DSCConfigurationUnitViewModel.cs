@@ -16,6 +16,8 @@ public partial class DSCConfigurationUnitViewModel : ObservableObject
 
     public string Id => _configurationUnit.Id;
 
+    public Guid InstanceId => _configurationUnit.InstanceId;
+
     public string Title => GetTitle();
 
     public string Type => _configurationUnit.Type;
