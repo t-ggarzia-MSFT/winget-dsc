@@ -22,7 +22,10 @@ public partial class SelectFileViewModel : ObservableRecipient
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(PreviewCommand))]
+    [NotifyPropertyChangedFor(nameof(IsFileSelected))]
     private SelectFileResult? _selectFileResult;
+
+    public bool IsFileSelected => SelectFileResult != null;
 
     private bool CanPreview => SelectFileResult?.Success ?? false;
 
@@ -40,19 +43,16 @@ public partial class SelectFileViewModel : ObservableRecipient
 
     public async Task SelectFileAsync(StorageFile? file)
     {
-        SelectFileResult = await SelectFileInternalAsync(file);
+        SelectFileResult = await SelectFileInternalAsync(file) ?? SelectFileResult;
     }
 
-    private async Task<SelectFileResult> SelectFileInternalAsync(StorageFile? file)
+    private async Task<SelectFileResult?> SelectFileInternalAsync(StorageFile? file)
     {
         // Check if a file was selected
         if (file == null)
         {
             _logger.LogInformation("No configuration file selected");
-            return new()
-            {
-                Success = false,
-            };
+            return null;
         }
 
         try
