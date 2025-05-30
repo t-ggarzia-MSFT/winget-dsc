@@ -15,18 +15,26 @@ namespace dscui.ViewModels.ConfigurationFlow;
 
 public partial class ApplyFileViewModel : ObservableRecipient, INavigationAware
 {
+    private readonly IStringResource _stringResource;
     private readonly IConfigurationNavigationService _navigationService;
     private readonly IDSC _dsc;
     private readonly DispatcherQueue _dq;
     private IDSCSet? _dscSet;
 
+    [ObservableProperty]
+    private bool _isLoading = true;
+
     public ObservableCollection<ApplySetUnit> Units { get; } = [];
 
-    public ApplyFileViewModel(IConfigurationNavigationService navigationService, IDSC dsc)
+    public ApplyFileViewModel(
+        IConfigurationNavigationService navigationService,
+        IDSC dsc,
+        IStringResource stringResource)
     {
         _navigationService = navigationService;
         _dsc = dsc;
         _dq = DispatcherQueue.GetForCurrentThread();
+        _stringResource = stringResource;
     }
 
     public void OnNavigatedTo(object parameter)
@@ -36,7 +44,7 @@ public partial class ApplyFileViewModel : ObservableRecipient, INavigationAware
             _dscSet = dscSet;
             foreach(var unit in dscSet.Units)
             {
-                Units.Add(new(unit));
+                Units.Add(new(unit, _stringResource));
             }
         }
     }
@@ -68,26 +76,22 @@ public partial class ApplyFileViewModel : ObservableRecipient, INavigationAware
                 {
                     if (data.UnitState == ConfigurationUnitState.InProgress)
                     {
-                        unit.State = ApplySetUnitState.InProgress;
+                        unit.Update(ApplySetUnitState.InProgress);
                     }
                     else if (data.UnitState == ConfigurationUnitState.Skipped)
                     {
-                        unit.State = ApplySetUnitState.Skipped;
-                        // data.ResultInformation.
+                        unit.Update(ApplySetUnitState.Skipped, data.ResultInformation);
                     }
                     else if (data.UnitState == ConfigurationUnitState.Completed)
                     {
-                        if (data.ResultInformation.ResultCode == null)
-                        {
-                            unit.State = ApplySetUnitState.Succeeded;
-                            unit.Message = "Unit applied successfully.";
-                        }
-                        else
-                        {
-                            unit.State = ApplySetUnitState.Failed;
-                        }
+                        var state = data.ResultInformation.IsOk ? ApplySetUnitState.Succeeded : ApplySetUnitState.Failed;
+                        unit.Update(state, data.ResultInformation);
                     }
                 }
+            }
+            else if (data.Change == ConfigurationSetChangeEventType.SetStateChanged && data.SetState == ConfigurationSetState.Completed)
+            {
+                IsLoading = false;
             }
         });
     }

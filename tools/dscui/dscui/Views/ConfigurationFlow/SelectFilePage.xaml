@@ -23,6 +23,7 @@
                 <FontIcon Foreground="{ThemeResource TextFillColorSecondaryBrush}" Glyph="&#xE8FF;" FontSize="60" />
             <Button HorizontalAlignment="Center"
                     Margin="24"
+                    MinWidth="120"
                     Click="Browse_Click">Browse</Button>
             </StackPanel>
         </Grid>
@@ -32,7 +33,10 @@
                       Severity="Error"
                       Message="{x:Bind ViewModel.SelectFileResult.Message, Mode=OneWay}" />
             <TextBlock HorizontalAlignment="Center" Text="{x:Bind ViewModel.SelectFileResult.FilePath, Mode=OneWay}" />
-            <Button HorizontalAlignment="Center" Style="{ThemeResource AccentButtonStyle}" Command="{x:Bind ViewModel.PreviewCommand, Mode=OneWay}">Preview</Button>
+            <Button HorizontalAlignment="Center"
+                    Style="{ThemeResource AccentButtonStyle}"
+                    MinWidth="120"
+                    Command="{x:Bind ViewModel.PreviewCommand, Mode=OneWay}">Preview</Button>
         </StackPanel>
     </StackPanel>
 </Page>

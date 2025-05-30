@@ -11,20 +11,25 @@ public interface IDSCUnitResultInformation
     /// <summary>
     /// Gets the error code of the result.
     /// </summary>
-    public Exception ResultCode{ get; }
+    Exception ResultCode{ get; }
 
     /// <summary>
     /// Gets the short description of the failure.
     /// </summary>
-    public string Description{ get; }
+    string Description{ get; }
 
     /// <summary>
     /// Gets a more detailed error message appropriate for diagnosing the root cause of an error.
     /// </summary>
-    public string Details{ get; }
+    string Details{ get; }
 
     /// <summary>
     /// Gets the source of the result.
     /// </summary>
     ConfigurationUnitResultSource ResultSource { get; }
+
+    /// <summary>
+    /// Gets whether the result indicates success or failure.
+    /// </summary>
+    bool IsOk => ResultCode == null;
 }
