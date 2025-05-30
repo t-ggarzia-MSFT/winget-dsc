@@ -22,7 +22,10 @@ public partial class ApplyFileViewModel : ObservableRecipient, INavigationAware
     private IDSCSet? _dscSet;
 
     [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(DoneCommand))]
     private bool _isLoading = true;
+
+    private bool IsDone => !IsLoading;
 
     public ObservableCollection<ApplySetUnit> Units { get; } = [];
 
@@ -96,7 +99,7 @@ public partial class ApplyFileViewModel : ObservableRecipient, INavigationAware
         });
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(IsDone))]
     private async Task OnDoneAsync()
     {
         _navigationService.NavigateToDefaultPage();

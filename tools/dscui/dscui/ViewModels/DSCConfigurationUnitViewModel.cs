@@ -24,6 +24,8 @@ public partial class DSCConfigurationUnitViewModel : ObservableObject
 
     public string Description => _configurationUnit.Description;
 
+    public bool RequiresElevation => _configurationUnit.RequiresElevation;
+
     public string Intent => _configurationUnit.Intent;
 
     public string ModuleName => _configurationUnit.ModuleName;

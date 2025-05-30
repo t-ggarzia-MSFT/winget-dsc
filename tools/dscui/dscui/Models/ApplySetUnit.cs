@@ -16,6 +16,7 @@ public partial class ApplySetUnit : ObservableObject
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsLoading))]
+    [NotifyPropertyChangedFor(nameof(IsExpanded))]
     private ApplySetUnitState _state;
 
     [ObservableProperty]
@@ -24,15 +25,17 @@ public partial class ApplySetUnit : ObservableObject
     [ObservableProperty]
     private string? _description;
 
-    public bool IsLoading => State == ApplySetUnitState.InProgress || State == ApplySetUnitState.NotStarted;
+    public bool IsLoading => State == ApplySetUnitState.InProgress;
+
+    public bool IsExpanded => State == ApplySetUnitState.Failed || State == ApplySetUnitState.Skipped;
 
     public DSCConfigurationUnitViewModel Unit { get; }
 
     public ApplySetUnit(IDSCUnit unit, IStringResource stringResource)
     {
         Unit = new(unit);
-        State = ApplySetUnitState.NotStarted;
         _stringResource = stringResource;
+        Update(ApplySetUnitState.NotStarted);
     }
 
     public void Update(ApplySetUnitState state, IDSCUnitResultInformation? resultInformation = null)
@@ -41,6 +44,10 @@ public partial class ApplySetUnit : ObservableObject
         if (State == ApplySetUnitState.Succeeded)
         {
             Message = _stringResource.GetLocalized("ConfigurationUnitSuccess");
+        }
+        else if(State == ApplySetUnitState.NotStarted)
+        {
+            Message = _stringResource.GetLocalized("ConfigurationUnitNotStarted");
         }
         else if (State == ApplySetUnitState.Failed && resultInformation != null)
         {

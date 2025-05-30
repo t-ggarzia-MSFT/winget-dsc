@@ -108,7 +108,17 @@
 
                             <!-- Expander header -->
                             <Expander.Header>
-                                <TextBlock Text="{x:Bind Title}" TextTrimming="CharacterEllipsis" />
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Bind Title}" TextTrimming="CharacterEllipsis" />
+                                    <FontIcon Glyph="&#xEA18;"
+                                              Visibility="{x:Bind RequiresElevation}"
+                                              HorizontalAlignment="Right"
+                                              Grid.Column="1" />
+                                </Grid>
                             </Expander.Header>
 
                             <!-- Expander content -->

@@ -30,6 +30,9 @@ internal sealed class DSCUnit : IDSCUnit
     public string Description { get; }
 
     /// <inheritdoc/>
+    public bool RequiresElevation { get; }
+
+    /// <inheritdoc/>
     public string Intent { get; }
 
     /// <inheritdoc/>
@@ -60,6 +63,9 @@ internal sealed class DSCUnit : IDSCUnit
         unit.Metadata.TryGetValue(DescriptionMetadataKey, out var descriptionObj);
         Description = descriptionObj?.ToString() ?? string.Empty;
 
+        // Get security context
+        RequiresElevation = GetRequiresElevation(unit);
+
         // Load dictionary values into list of key value pairs
         Settings = unit.Settings.Select(s => new KeyValuePair<string, string>(s.Key, s.Value.ToString())).ToList();
         Metadata = unit.Metadata.Select(m => new KeyValuePair<string, string>(m.Key, m.Value.ToString())).ToList();
@@ -86,5 +92,24 @@ internal sealed class DSCUnit : IDSCUnit
     internal void SetLoadDetailsTask(Task<IDSCUnitDetails> loadDetailsTask)
     {
         _loadDetailsTask = loadDetailsTask;
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the configuration unit requires elevated permissions to execute.
+    /// </summary>
+    /// <param name="unit">ConfigurationUnit unit</param>
+    /// <returns></returns>
+    public bool GetRequiresElevation(ConfigurationUnit unit)
+    {
+        // This property is not available in older version of winget.
+        try
+        {
+            return unit.Environment.Context == SecurityContext.Elevated;
+        }
+        catch
+        {
+            // If we cannot determine the security context, default to not
+            return false;
+        }
     }
 }

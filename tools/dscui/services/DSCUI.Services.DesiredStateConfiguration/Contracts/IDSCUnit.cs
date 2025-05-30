@@ -30,6 +30,11 @@ public interface IDSCUnit
     public string Description { get; }
 
     /// <summary>
+    /// Gets a value indicating whether the operation requires elevated permissions to execute.
+    /// </summary>
+    public bool RequiresElevation { get; }
+
+    /// <summary>
     /// Gets the intent of how this configuration unit will be used.
     /// </summary>
     public string Intent { get; }
