@@ -13,22 +13,23 @@
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
     <TabView
-	    TabItemsSource="{x:Bind ViewModel.ValidationViewModels}"
-        SelectedIndex="{x:Bind ViewModel.CurrentValidationViewModel, Mode=TwoWay}"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        HorizontalContentAlignment="Stretch"
-        VerticalContentAlignment="Stretch"
+        TabItemsSource="{x:Bind ViewModel.ValidationViewModels}"
+        SelectedIndex="{x:Bind ViewModel.CurrentTabIndex, Mode=TwoWay}"
         TabCloseRequested="CloseValidationTab">
-
         <i:Interaction.Behaviors>
             <ic:EventTriggerBehavior EventName="AddTabButtonClick">
                 <ic:InvokeCommandAction Command="{x:Bind ViewModel.NewTabAddedCommand}" />
             </ic:EventTriggerBehavior>
         </i:Interaction.Behaviors>
         <TabView.TabItemTemplate>
-            <DataTemplate x:DataType="vms:ValidationViewModel">
-                <pages:ValidationPage/>
+            <DataTemplate>
+                <TabViewItem Header="Tab">
+                    <TabViewItem.ContentTemplate>
+                        <DataTemplate>
+                            <pages:ValidationPage/>
+                        </DataTemplate>
+                    </TabViewItem.ContentTemplate>
+                </TabViewItem>
             </DataTemplate>
         </TabView.TabItemTemplate>
     </TabView>

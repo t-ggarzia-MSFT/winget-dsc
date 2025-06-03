@@ -16,10 +16,10 @@
 	<LangVersion>preview</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Views\ValidationListPage.xaml" />
     <None Remove="Views\ConfigurationFlow\ApplyFilePage.xaml" />
     <None Remove="Views\ConfigurationFlow\PreviewFilePage.xaml" />
     <None Remove="Views\ConfigurationFlow\SelectFilePage.xaml" />
-    <None Remove="Views\ValidationListPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,9 +31,11 @@
     <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.250513-build.2126" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.250129-preview2" />
+	<PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.250129-preview2" />
+	<PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250129-preview2" />
+	<PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.2.250402" />
     <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250129-preview2" />
     <PackageReference Include="CommunityToolkit.WinUI.Converters" Version="8.2.250129-preview2" />
-	<PackageReference Include="CommunityToolkit.WinUI.Controls.Segmented" Version="8.2.250129-preview2" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250310001" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="2.0.9" />
@@ -49,6 +51,7 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\ValidationListPage.xaml" />
     <Page Update="Views\ConfigurationFlow\ApplyFilePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -56,9 +59,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="Views\ConfigurationFlow\SelectFilePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Views\ValidationListPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -70,4 +70,14 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <PRIResource Update="Strings\en-us\Resources.resw">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </PRIResource>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Views\ValidationFlow\" />
+  </ItemGroup>
 </Project>

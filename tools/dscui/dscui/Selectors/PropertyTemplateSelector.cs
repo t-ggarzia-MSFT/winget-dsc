@@ -32,6 +32,22 @@ public class PropertyTemplateSelector : DataTemplateSelector
                     return Array;
             }
         }
+        if(item is ConfigurationPropertyValueBase v)
+        {
+            switch (v.Type)
+            {
+                case PropertyType.Number:
+                    return Number;
+                case PropertyType.Boolean:
+                    return Boolean;
+                case PropertyType.String:
+                    return String;
+                case PropertyType.Object:
+                    return Object;
+                case PropertyType.Array:
+                    return Array;
+            }
+        }
         return Number;
     }
 }

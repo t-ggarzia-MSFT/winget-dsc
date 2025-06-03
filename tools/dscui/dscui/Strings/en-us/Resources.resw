@@ -240,7 +240,6 @@
     <value>is public</value>
     <comment>Check if the configuration unit is public</comment>
   </data>
-</root>
   <data name="Shell_Validation.Content" xml:space="preserve">
     <value>Validation</value>
   </data>

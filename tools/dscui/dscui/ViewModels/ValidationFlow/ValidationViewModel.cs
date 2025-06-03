@@ -35,6 +35,7 @@ public partial class ValidationViewModel : ObservableRecipient, INavigationAware
     public async void OnNavigatedTo(object parameter)
     {
         // No-op
+        await Task.CompletedTask;
     }
 
     public void OnNavigatedFrom()
@@ -46,20 +47,24 @@ public partial class ValidationViewModel : ObservableRecipient, INavigationAware
     private async Task OnGetAsync()
     {
         System.Diagnostics.Debug.WriteLine("Get");
+        await Task.CompletedTask;
     }
     [RelayCommand]
     private async Task OnSetAsync()
     {
         System.Diagnostics.Debug.WriteLine("Set");
+        await Task.CompletedTask;
     }
     [RelayCommand]
     private async Task OnTestAsync()
     {
         System.Diagnostics.Debug.WriteLine("Test");
+        await Task.CompletedTask;
     }
     [RelayCommand]
     private async Task OnExportAsync()
     {
         System.Diagnostics.Debug.WriteLine("Export");
+        await Task.CompletedTask;
     }
 }

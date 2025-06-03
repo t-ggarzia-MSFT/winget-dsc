@@ -13,6 +13,7 @@ internal class AppPageService : PageService, IAppPageService
     {
         Configure<MainViewModel, MainPage>();
         Configure<ConfigurationViewModel, ConfigurationPage>();
+        Configure<ValidationListViewModel, ValidationListPage>();
         Configure<SettingsViewModel, SettingsPage>();
     }
 }

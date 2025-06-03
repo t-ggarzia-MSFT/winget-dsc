@@ -1,18 +1,19 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace dscui.Models;
 public class ArrayValue : ConfigurationPropertyValueBase
 {
-    private List<ConfigurationPropertyValueBase> _value;
+    private ObservableCollection<ConfigurationPropertyValueBase> _value;
     public override object Value
     {
         get => _value;
-        set => _value = (List<ConfigurationPropertyValueBase>)value;
+        set => _value = (ObservableCollection<ConfigurationPropertyValueBase>)value;
     }
-    public ArrayValue(List<ConfigurationPropertyValueBase> values) : base(PropertyType.Array)
+    public ArrayValue(ObservableCollection<ConfigurationPropertyValueBase> values) : base(PropertyType.Array)
     {
         _value = values;
     }

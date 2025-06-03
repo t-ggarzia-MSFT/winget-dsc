@@ -1,54 +1,45 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using dscui.Contracts.ViewModels;
+using dscui.Contracts.Services;
 using DSCUI.Services.DesiredStateConfiguration.Contracts;
-using Microsoft.UI.Dispatching;
 
 namespace dscui.ViewModels;
 
-public partial class ValidationListViewModel : ObservableRecipient, INavigationAware
+public partial class ValidationListViewModel : ObservableRecipient
 {
     private readonly IDSC _dsc;
-    private readonly ValidationViewModelFactory _validationViewModelFactory;
+    public readonly IValidationFlowService _flowService;
 
     [ObservableProperty]
-    public partial int CurrentValidationViewModel { get; set; }
+    public partial int CurrentTabIndex { get; set; }
 
-    public ObservableCollection<ValidationViewModel> ValidationViewModels { get; } = [];
+    public ObservableCollection<ValidationViewModel> ValidationViewModels => _flowService.ValidationViewModels;
 
-    public void OnNavigatedFrom()
-    {
-
-    }
-
-    public void OnNavigatedTo(object parameter)
-    {
-
-    }
-
-    public ValidationListViewModel(IDSC dsc)
+    public ValidationListViewModel(IDSC dsc, IValidationFlowService flowService)
     {
         _dsc = dsc;
-        _validationViewModelFactory = App.GetService<ValidationViewModelFactory>();
-         ValidationViewModels.Add(_validationViewModelFactory());
-        CurrentValidationViewModel = 0;
+        _flowService = flowService;
+    }
+
+    partial void OnCurrentTabIndexChanged(int value)
+    {
+        _flowService.CurrentTabIndex = value;
     }
 
     public void CloseTab(ValidationViewModel vm)
     {
-        ValidationViewModels.Remove(vm);
+        _flowService.RemoveTab(vm);
+        if(CurrentTabIndex >= _flowService.ValidationViewModels.Count)
+        {
+            CurrentTabIndex = _flowService.ValidationViewModels.Count - 1;
+        }
     }
     [RelayCommand]
     private async Task OnNewTabAddedAsync()
     {
-        ValidationViewModel vm = _validationViewModelFactory();
-        ValidationViewModels.Add(vm);
-
-        //TODO fix this
-        await Task.Delay(50);
-        CurrentValidationViewModel = ValidationViewModels.Count - 1;
-        
+        _flowService.AddTab();
+        CurrentTabIndex = ValidationViewModels.Count - 1;
         await Task.CompletedTask;
     }
 }

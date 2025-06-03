@@ -57,12 +57,14 @@ public partial class App : Application
             services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
             services.AddTransient<INavigationViewService, NavigationViewService>();
             services.AddTransient<IStringResource, StringResource>();
-
             services.AddSingleton<IActivationService, ActivationService>();
             services.AddSingleton<IAppPageService, AppPageService>();
             services.AddSingleton<IConfigurationPageService, ConfigurationPageService>();
+            services.AddSingleton<IValidationPageService, ValidationPageService>();
             services.AddSingleton<IAppNavigationService, AppNavigationService>();
             services.AddSingleton<IConfigurationNavigationService, ConfigurationNavigationService>();
+            services.AddSingleton<IValidationFlowService, ValidationFlowService>();
+            services.AddSingleton<IValidationNavigationService, ValidationNavigationService>();
 
             // Core Services
             services.AddSingleton<IFileService, FileService>();
@@ -76,7 +78,7 @@ public partial class App : Application
             services.AddTransient<ConfigurationPage>();
             services.AddTransient<ValidationViewModel>();
             services.AddTransient<ValidationPage>();
-            services.AddSingleton<ValidationListViewModel>();
+            services.AddTransient<ValidationListViewModel>();
             services.AddTransient<ValidationListPage>();
             services.AddTransient<MainViewModel>();
             services.AddTransient<MainPage>();
