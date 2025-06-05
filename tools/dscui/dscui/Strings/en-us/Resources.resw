@@ -282,4 +282,12 @@
   <data name="ConfigurationUnitNotRunDueToFailedAssert" xml:space="preserve">
     <value>This configuration unit was not run because an assert failed or was false.</value>
   </data>
+  <data name="ConfigurationFileVersionUnknown" xml:space="preserve">
+    <value>Configuration file version {0} is not known.</value>
+    <comment>{Locked="{0}"} An error in reading a configuration file. {0} is a placeholder replaced by the version of the configuration file.</comment>
+  </data>
+  <data name="ConfigurationFileInvalid" xml:space="preserve">
+    <value>The configuration file is invalid.</value>
+    <comment>An error in reading a configuration file.</comment>
+  </data>
 </root>
