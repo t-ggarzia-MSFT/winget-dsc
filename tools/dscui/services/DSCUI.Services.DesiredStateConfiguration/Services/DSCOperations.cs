@@ -11,6 +11,7 @@ using DSCUI.Services.DesiredStateConfiguration.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Management.Configuration;
 using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.Storage.Streams;
 
 namespace DSCUI.Services.DesiredStateConfiguration.Services;
@@ -82,6 +83,34 @@ internal sealed class DSCOperations : IDSCOperations
                 }
             }));
         }
+    }
+
+    public async void Get()
+    {
+        ConfigurationStaticFunctions config = new();
+        var processor = await CreateConfigurationProcessorAsync();
+        var input = config.CreateConfigurationUnit();
+        input.Settings.Add("AppColorMode", "dark");
+        input.Type = "ModuleName";
+
+        processor.GetUnitSettings(input);
+    }
+
+    public async void Set()
+    {
+    }
+    public async void Test()
+    {
+        ConfigurationStaticFunctions config = new();
+        var processor = await CreateConfigurationProcessorAsync();
+        var input = config.CreateConfigurationUnit();
+        input.Settings.Add("AppColorMode", "dark");
+        input.Type = "ModuleName";
+
+        processor.TestUnit(input);
+    }
+    public async void Export()
+    {
     }
 
     /// <summary>

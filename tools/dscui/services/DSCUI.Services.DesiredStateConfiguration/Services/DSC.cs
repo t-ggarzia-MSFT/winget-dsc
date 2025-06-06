@@ -32,4 +32,16 @@ internal sealed class DSC : IDSC
 
     /// <inheritdoc/>
     public void GetConfigurationUnitDetails(IDSCSet set) => _dscOperations.GetConfigurationUnitDetails(set);
+
+    /// <inheritdoc/>
+    public void Get() => _dscOperations.Get();
+
+    /// <inheritdoc/>
+    public void Set() => _dscOperations.Set();
+
+    /// <inheritdoc/>
+    public void Test() => _dscOperations.Test();
+
+    /// <inheritdoc/>
+    public void Export() => _dscOperations.Export();
 }

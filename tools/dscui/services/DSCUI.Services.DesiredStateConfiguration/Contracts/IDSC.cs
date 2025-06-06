@@ -22,4 +22,9 @@ public interface IDSC
 
     /// <inheritdoc cref="IDSCOperations.GetConfigurationUnitDetails" />
     public void GetConfigurationUnitDetails(IDSCSet set);
+    /// <inheritdoc cref="IDSCOperations.Get" />
+    public void Get();
+    public void Set();
+    public void Test();
+    public void Export();
 }

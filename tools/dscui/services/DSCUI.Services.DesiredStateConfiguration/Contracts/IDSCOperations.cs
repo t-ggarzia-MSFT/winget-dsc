@@ -27,4 +27,9 @@ internal interface IDSCOperations
     /// </summary>
     /// <param name="set">Configuration set to get details for</param>
     public void GetConfigurationUnitDetails(IDSCSet set);
+
+    public void Get();
+    public void Set();
+    public void Test();
+    public void Export();
 }
