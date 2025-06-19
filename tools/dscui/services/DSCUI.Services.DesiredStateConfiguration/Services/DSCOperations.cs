@@ -5,14 +5,15 @@ using System;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using dscui.Models;
 using DSCUI.Services.DesiredStateConfiguration.Contracts;
 using DSCUI.Services.DesiredStateConfiguration.Exceptions;
 using DSCUI.Services.DesiredStateConfiguration.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.Management.Configuration;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage.Streams;
+using Windows.UI.Input.Preview.Injection;
 
 namespace DSCUI.Services.DesiredStateConfiguration.Services;
 
@@ -20,6 +21,7 @@ internal sealed class DSCOperations : IDSCOperations
 {
     private readonly ILogger _logger;
     private const string PowerShellHandlerIdentifier = "pwsh";
+    private const string DSCV3HandlerIdentifier = "{dbb2ac6d-1b58-4b05-9c50-b463cc434771}";
 
     public DSCOperations(ILogger<DSCOperations> logger)
     {
@@ -28,7 +30,7 @@ internal sealed class DSCOperations : IDSCOperations
 
     public async Task<IDSCSet> OpenConfigurationSetAsync(IDSCFile file)
     {
-        var processor = await CreateConfigurationProcessorAsync();
+        var processor = await CreateConfigurationProcessorAsync(PowerShellHandlerIdentifier);
         var outOfProcResult = await OpenConfigurationSetAsync(file, processor);
         return new DSCSet(processor, outOfProcResult);
     }
@@ -85,42 +87,58 @@ internal sealed class DSCOperations : IDSCOperations
         }
     }
 
-    public async void Get()
+    public async Task GetUnit(ConfigurationUnitModel unit)
     {
         ConfigurationStaticFunctions config = new();
-        var processor = await CreateConfigurationProcessorAsync();
+        var processor = await CreateConfigurationProcessorAsync(PowerShellHandlerIdentifier);
         var input = config.CreateConfigurationUnit();
-        input.Settings.Add("AppColorMode", "dark");
-        input.Type = "ModuleName";
+        input.Settings = unit.Settings;
+        input.Type = unit.Type;
 
-        processor.GetUnitSettings(input);
+        var result = await Task.Run(() => processor.GetUnitSettings(input));
+        unit.Settings = result.Settings;
     }
 
-    public async void Set()
-    {
-    }
-    public async void Test()
+    public async Task SetUnit(ConfigurationUnitModel unit)
     {
         ConfigurationStaticFunctions config = new();
-        var processor = await CreateConfigurationProcessorAsync();
+        var processor = await CreateConfigurationProcessorAsync(DSCV3HandlerIdentifier);
         var input = config.CreateConfigurationUnit();
-        input.Settings.Add("AppColorMode", "dark");
-        input.Type = "ModuleName";
+        input.Settings = unit.Settings;
+        input.Type = unit.Type;
 
-        processor.TestUnit(input);
+        var result = await Task.Run(() => processor.ApplyUnit(input));
+        System.Diagnostics.Debug.WriteLine($"SetUnit result: {result.PreviouslyInDesiredState}");
     }
-    public async void Export()
+    public async Task TestUnit(ConfigurationUnitModel unit)
     {
+        ConfigurationStaticFunctions config = new();
+        var processor = await CreateConfigurationProcessorAsync(DSCV3HandlerIdentifier);
+        var input = config.CreateConfigurationUnit();
+        input.Settings = unit.Settings;
+        input.Type = unit.Type;
+        var result = await Task.Run(() => processor.TestUnit(input));
+        System.Diagnostics.Debug.WriteLine($"TestUnit result: {result.TestResult}");
+    }
+    public async Task ExportUnit(ConfigurationUnitModel unit)
+    {
+        ConfigurationStaticFunctions config = new();
+        var processor = await CreateConfigurationProcessorAsync(DSCV3HandlerIdentifier);
+        var input = config.CreateConfigurationUnit();
+        input.Settings = unit.Settings;
+        input.Type = unit.Type;
+        var result = await Task.Run(() => processor.GetAllUnits(input));
+        System.Diagnostics.Debug.WriteLine(result.Units);
     }
 
     /// <summary>
     /// Create a configuration processor using DSC configuration API
     /// </summary>
     /// <returns>Configuration processor</returns>
-    private async Task<ConfigurationProcessor> CreateConfigurationProcessorAsync()
+    private async Task<ConfigurationProcessor> CreateConfigurationProcessorAsync(string handler)
     {
         ConfigurationStaticFunctions config = new();
-        var factory = await config.CreateConfigurationSetProcessorFactoryAsync(PowerShellHandlerIdentifier);
+        var factory = await config.CreateConfigurationSetProcessorFactoryAsync(handler);
 
         // Create and configure the configuration processor.
         var processor = config.CreateConfigurationProcessor(factory);
@@ -129,7 +147,7 @@ internal sealed class DSCOperations : IDSCOperations
         processor.MinimumLevel = DiagnosticLevel.Verbose;
         return processor;
     }
-
+    
     /// <summary>
     /// Open a configuration set using DSC configuration API
     /// </summary>
@@ -189,7 +207,7 @@ internal sealed class DSCOperations : IDSCOperations
         InMemoryRandomAccessStream result = new();
         using (DataWriter writer = new(result))
         {
-            writer.UnicodeEncoding = UnicodeEncoding.Utf8;
+            writer.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf8;
             writer.WriteString(str);
             await writer.StoreAsync();
             writer.DetachStream();

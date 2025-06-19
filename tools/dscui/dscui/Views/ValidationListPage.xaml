@@ -23,7 +23,7 @@
         </i:Interaction.Behaviors>
         <TabView.TabItemTemplate>
             <DataTemplate>
-                <TabViewItem Header="Tab">
+                <TabViewItem Header="{Binding TabHeader}">
                     <TabViewItem.ContentTemplate>
                         <DataTemplate>
                             <pages:ValidationPage/>

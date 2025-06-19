@@ -20,6 +20,10 @@ public partial class ValidationListViewModel : ObservableRecipient
     {
         _dsc = dsc;
         _flowService = flowService;
+        if (_flowService.ValidationViewModels.Count == 0)
+        {
+            _flowService.AddTab();
+        }
     }
 
     partial void OnCurrentTabIndexChanged(int value)

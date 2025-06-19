@@ -17,9 +17,9 @@
         <converters:BoolToObjectConverter x:Key="BoolToIntConverter" TrueValue="1" FalseValue="0"/>
         <converters:BoolToObjectConverter x:Key="BoolToIntNegationConverter" TrueValue="0" FalseValue="1"/>
         <DataTemplate x:Key="StringTemplate" x:DataType="model:ConfigurationProperty">
-            <StackPanel Orientation="Horizontal" Spacing="8">
+            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
                 <TextBox Text="{Binding Name, Mode=TwoWay}" MinWidth="150"/>
-                <TextBlock Text="{Binding Value.Type}" MinWidth="50"/>
+                <TextBlock Text="{Binding Value.Type}" MinWidth="50" VerticalAlignment="Center"/>
                 <TextBox Text="{Binding Value.Value, Mode=TwoWay}" MinWidth="250"/>
                 <Button Click="RemoveValidationProperty">
                     <FontIcon Glyph="&#xE894;" FontSize="14"/>
@@ -28,7 +28,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="StringValueTemplate">
-            <StackPanel Orientation="Horizontal" Spacing="8">
+            <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
                 <TextBlock Text="{Binding Type}" MinWidth="50"/>
                 <TextBox Text="{Binding Value, Mode=TwoWay}" MinWidth="250"/>
                 <Button Click="RemoveValidationValue">
@@ -118,7 +118,7 @@
                             <MenuFlyoutItem Text="String" Click="NewValidationValue" Tag="Str"/>
                             <MenuFlyoutItem Text="Boolean" Click="NewValidationValue" Tag="Bool"/>
                             <MenuFlyoutItem Text="Number" Click="NewValidationValue" Tag="Num"/>
-                            <MenuFlyoutItem Text="Array" Click="NewValidationValue" Tag="Arr"/>
+                            <!--<MenuFlyoutItem Text="Array" Click="NewValidationValue" Tag="Arr"/>-->
                             <MenuFlyoutItem Text="Object" Click="NewValidationValue" Tag="Obj"/>
                         </MenuFlyout>
                     </SplitButton.Flyout>
@@ -159,7 +159,7 @@
                             <MenuFlyoutItem Text="String" Click="NewValidationValue" Tag="Str"/>
                             <MenuFlyoutItem Text="Boolean" Click="NewValidationValue" Tag="Bool"/>
                             <MenuFlyoutItem Text="Number" Click="NewValidationValue" Tag="Num"/>
-                            <MenuFlyoutItem Text="Array" Click="NewValidationValue" Tag="Arr"/>
+                            <!--<MenuFlyoutItem Text="Array" Click="NewValidationValue" Tag="Arr"/>-->
                             <MenuFlyoutItem Text="Object" Click="NewValidationValue" Tag="Obj"/>
                         </MenuFlyout>
                     </SplitButton.Flyout>
@@ -170,7 +170,7 @@
         <DataTemplate x:Key="ObjectTemplate">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Spacing="8">
-                    <TextBlock Text="{Binding Name}" MinWidth="50"/>
+                    <TextBox Text="{Binding Name, Mode=TwoWay}" MinWidth="50"/>
                     <TextBlock Text="{Binding Value.Type}" MinWidth="50"/>
 
                     <Button Click="RemoveValidationProperty">
@@ -201,7 +201,7 @@
                             <MenuFlyoutItem Text="String" Click="NewValidationProperty" Tag="Str"/>
                             <MenuFlyoutItem Text="Boolean" Click="NewValidationProperty" Tag="Bool"/>
                             <MenuFlyoutItem Text="Number" Click="NewValidationProperty" Tag="Num"/>
-                            <MenuFlyoutItem Text="Array" Click="NewValidationProperty" Tag="Arr"/>
+                            <!--<MenuFlyoutItem Text="Array" Click="NewValidationProperty" Tag="Arr"/>-->
                             <MenuFlyoutItem Text="Object" Click="NewValidationProperty" Tag="Obj"/>
                         </MenuFlyout>
                     </SplitButton.Flyout>
@@ -211,7 +211,7 @@
 
         <DataTemplate x:Key="ObjectValueTemplate">
             <StackPanel>
-                <StackPanel Orientation="Horizontal" Spacing="8">
+                <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
                     <TextBlock Text="{Binding Type}" MinWidth="50"/>
 
                     <Button Click="RemoveValidationValue">
@@ -242,7 +242,7 @@
                             <MenuFlyoutItem Text="String" Click="NewValidationProperty" Tag="Str"/>
                             <MenuFlyoutItem Text="Boolean" Click="NewValidationProperty" Tag="Bool"/>
                             <MenuFlyoutItem Text="Number" Click="NewValidationProperty" Tag="Num"/>
-                            <MenuFlyoutItem Text="Array" Click="NewValidationProperty" Tag="Arr"/>
+                            <!--<MenuFlyoutItem Text="Array" Click="NewValidationProperty" Tag="Arr"/>-->
                             <MenuFlyoutItem Text="Object" Click="NewValidationProperty" Tag="Obj"/>
                         </MenuFlyout>
                     </SplitButton.Flyout>
@@ -258,88 +258,89 @@
         </Grid.RowDefinitions>
 
         <ScrollView Margin="0,12,0,0" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Enabled">
-            <StackPanel HorizontalAlignment="Left" Spacing="12">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Left" Spacing="12" Visibility="{Binding ShowRawData, Mode=OneWay, Converter={StaticResource BoolToVisibilityNegationConverter}}">
 
-                <controls:Segmented Margin="0,8,0,0" SelectedIndex="{Binding IsV3, Mode=TwoWay, Converter={StaticResource BoolToIntConverter}}">
-                    <controls:SegmentedItem Content="DSCv2"/>
-                    <controls:SegmentedItem Content="DSCv3"/>
-                </controls:Segmented>
-                <StackPanel Visibility="{Binding IsV3, Mode=OneWay, Converter={StaticResource BoolToVisibilityNegationConverter}}">
-                    <TextBlock x:Uid="ValidationModuleInputHeaderV2" Margin="0,0,0,8"/>
-                    <TextBox x:Uid="ValidationModuleInputV2" Width="Auto" Text="{x:Bind ViewModel.ModuleName, Mode=TwoWay}"/>
-                </StackPanel>
-
-                <StackPanel Visibility="{Binding IsV3}">
-                    <TextBlock x:Uid="ValidationModuleInputHeaderV3"  Margin="0,0,0,8"/>
-                    <TextBox x:Uid="ValidationModuleInputV3" Width="Auto" Text="{x:Bind ViewModel.ModuleName, Mode=TwoWay}"/>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <controls:Segmented Margin="0,8,0,0" SelectedIndex="{Binding ShowRawData, Mode=TwoWay, Converter={StaticResource BoolToIntConverter}}">
-                        <controls:SegmentedItem Content="Formatted Data"/>
-                        <controls:SegmentedItem Content="Raw Data"/>
+                    <controls:Segmented Margin="0,8,0,0" SelectedIndex="{Binding IsV3, Mode=TwoWay, Converter={StaticResource BoolToIntConverter}}">
+                        <controls:SegmentedItem Content="DSCv2"/>
+                        <controls:SegmentedItem Content="DSCv3"/>
                     </controls:Segmented>
-
-                </StackPanel>
-                <StackPanel Visibility="{Binding ShowRawData, Mode=OneWay, Converter={StaticResource BoolToVisibilityNegationConverter}}">
-
-                    <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
-                        <TextBlock Text="Name" MinWidth="150" FontWeight="Bold"/>
-                        <TextBlock Text="Type" MinWidth="50" FontWeight="Bold"/>
-                        <TextBlock Text="Value" MinWidth="250" FontWeight="Bold"/>
+                    <StackPanel Visibility="{Binding IsV3, Mode=OneWay, Converter={StaticResource BoolToVisibilityNegationConverter}}">
+                        <TextBlock x:Uid="ValidationModuleInputHeaderV2" Margin="0,0,0,8"/>
+                        <TextBox x:Uid="ValidationModuleInputV2" Width="Auto" Text="{x:Bind ViewModel.ModuleName, Mode=TwoWay}"/>
                     </StackPanel>
 
-                    <ListView
-                        ItemsSource="{Binding Properties, Mode=TwoWay}"
-                        CanBeScrollAnchor="True"
-                        Width="Auto"
-                        Height="Auto"
-                        IsItemClickEnabled="False"
-                        SelectionMode="None"
-                        >
-                        <ListView.ItemTemplateSelector>
-                            <selectors:PropertyTemplateSelector
-                                Boolean="{StaticResource BooleanTemplate}"
-                                Number="{StaticResource NumberTemplate}"
-                                String="{StaticResource StringTemplate}"
-                                Array="{StaticResource ArrayTemplate}"
-                                Object="{StaticResource ObjectTemplate}"/>
-                        </ListView.ItemTemplateSelector>
-                    </ListView>
+                    <StackPanel Visibility="{Binding IsV3}">
+                        <TextBlock x:Uid="ValidationModuleInputHeaderV3"  Margin="0,0,0,8"/>
+                        <TextBox x:Uid="ValidationModuleInputV3" Width="Auto" Text="{x:Bind ViewModel.ModuleName, Mode=TwoWay}"/>
+                    </StackPanel>
 
-                    <SplitButton Click="NewValidationPropertyDefault" Margin="0,8,0,0">
-                        <FontIcon Glyph="&#xE710;" FontSize="14"/>
-                        <SplitButton.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Text="String" Click="NewValidationProperty" Tag="Str"/>
-                                <MenuFlyoutItem Text="Boolean" Click="NewValidationProperty" Tag="Bool"/>
-                                <MenuFlyoutItem Text="Number" Click="NewValidationProperty" Tag="Num"/>
-                                <MenuFlyoutItem Text="Array" Click="NewValidationProperty" Tag="Arr"/>
-                                <MenuFlyoutItem Text="Object" Click="NewValidationProperty" Tag="Obj"/>
-                            </MenuFlyout>
-                        </SplitButton.Flyout>
-                    </SplitButton>
+                    <StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,0,0,8">
+                            <TextBlock Text="Name" MinWidth="150" FontWeight="Bold"/>
+                            <TextBlock Text="Type" MinWidth="50" FontWeight="Bold"/>
+                            <TextBlock Text="Value" MinWidth="250" FontWeight="Bold"/>
+                        </StackPanel>
+
+                        <ListView
+                                ItemsSource="{Binding Properties, Mode=TwoWay}"
+                                CanBeScrollAnchor="True"
+                                Width="Auto"
+                                Height="Auto"
+                                IsItemClickEnabled="False"
+                                SelectionMode="None"
+                                >
+                            <ListView.ItemTemplateSelector>
+                                <selectors:PropertyTemplateSelector
+                                        Boolean="{StaticResource BooleanTemplate}"
+                                        Number="{StaticResource NumberTemplate}"
+                                        String="{StaticResource StringTemplate}"
+                                        Array="{StaticResource ArrayTemplate}"
+                                        Object="{StaticResource ObjectTemplate}"/>
+                            </ListView.ItemTemplateSelector>
+                        </ListView>
+
+                        <SplitButton Click="NewValidationPropertyDefault" Margin="0,8,0,0">
+                            <FontIcon Glyph="&#xE710;" FontSize="14"/>
+                            <SplitButton.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Text="String" Click="NewValidationProperty" Tag="Str"/>
+                                    <MenuFlyoutItem Text="Boolean" Click="NewValidationProperty" Tag="Bool"/>
+                                    <MenuFlyoutItem Text="Number" Click="NewValidationProperty" Tag="Num"/>
+                                    <!--<MenuFlyoutItem Text="Array" Click="NewValidationProperty" Tag="Arr"/>-->
+                                    <MenuFlyoutItem Text="Object" Click="NewValidationProperty" Tag="Obj"/>
+                                </MenuFlyout>
+                            </SplitButton.Flyout>
+                        </SplitButton>
+                    </StackPanel>
+
+                </StackPanel>
+                <StackPanel Margin="8,0,0,0">
+                    <Button Command="{Binding ConvertYamlToUICommand}">
+                        <FontIcon Glyph="&#xF0B0;" />
+                    </Button>
+                    <Button Command="{Binding ConvertUIToYamlCommand}">
+                        <FontIcon Glyph="&#xF0AF;" />
+                    </Button>
                 </StackPanel>
                 <TextBox
-                    Width="Auto"
-                    Height="Auto"
-                    Text="{Binding RawData, Mode=TwoWay}"
-                    Margin="0,8,0,0"
-                    MinHeight="100"
-                    AcceptsReturn="True"
-                    TextWrapping="Wrap"
-                    Visibility="{Binding ShowRawData, Mode=OneWay}"/>
-                <Button Click="CopyToClipboard">
-                    <FontIcon Glyph="&#xE8C8;" />
-                </Button>
+                        Width="Auto"
+                        Height="Auto"
+                        MinWidth="300"
+                        Text="{Binding RawData, Mode=TwoWay}"
+                        Margin="32,8,0,0"
+                        MinHeight="100"
+                        AcceptsReturn="True"
+                        TextWrapping="Wrap"/>
             </StackPanel>
         </ScrollView>
-        
+
         <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right" Margin="0,12,0,0">
-            <Button Content="Get" Command="{Binding GetCommand}"/>
-            <Button Content="Set" Command="{Binding SetCommand}"/>
-            <Button Content="Test" Command="{Binding TestCommand}"/>
-            <Button Content="Export" Command="{Binding ExportCommand}"/>
+            <Button Content="Get" Command="{Binding GetCommand}" IsEnabled="{Binding ActionsEnabled}"/>
+            <Button Content="Set" Command="{Binding SetCommand}" IsEnabled="{Binding ActionsEnabled}"/>
+            <Button Content="Test" Command="{Binding TestCommand}" IsEnabled="{Binding ActionsEnabled}"/>
+            <Button Content="Export" Command="{Binding ExportCommand}" IsEnabled="{Binding ActionsEnabled}"/>
         </StackPanel>
     </Grid>
 </Page>

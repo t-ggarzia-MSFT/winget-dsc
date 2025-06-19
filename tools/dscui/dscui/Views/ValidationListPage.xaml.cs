@@ -1,10 +1,6 @@
-﻿using System;
-using dscui.Contracts.Views;
-using dscui.Helpers;
+﻿using dscui.Contracts.Views;
 using dscui.ViewModels;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Windows.Media.Devices.Core;
 
 namespace dscui.Views;
 public sealed partial class ValidationListPage : Page, IView<ValidationListViewModel>
@@ -22,9 +18,9 @@ public sealed partial class ValidationListPage : Page, IView<ValidationListViewM
 
     private void CloseValidationTab(TabView sender, TabViewTabCloseRequestedEventArgs args)
     {
-        if (args.Item is TabViewItem t)
+        if (args.Item is ValidationViewModel vm)
         {
-            sender.TabItems.Remove(t);
+            ViewModel.CloseTab(vm);
         }
     }
 }

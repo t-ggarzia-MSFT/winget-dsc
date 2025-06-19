@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+﻿// Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System.Collections.ObjectModel;
@@ -17,7 +17,6 @@ public partial class ValidationFlowService : IValidationFlowService
     public ValidationFlowService()
     {
         _validationViewModelFactory = App.GetService<ValidationViewModelFactory>();
-        AddTab();
     }
     public void AddTab()
     {

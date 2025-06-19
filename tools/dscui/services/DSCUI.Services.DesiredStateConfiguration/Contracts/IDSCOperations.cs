@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using System.Threading.Tasks;
+using dscui.Models;
+using Microsoft.Management.Configuration;
 using Windows.Foundation;
 
 namespace DSCUI.Services.DesiredStateConfiguration.Contracts;
@@ -28,8 +30,8 @@ internal interface IDSCOperations
     /// <param name="set">Configuration set to get details for</param>
     public void GetConfigurationUnitDetails(IDSCSet set);
 
-    public void Get();
-    public void Set();
-    public void Test();
-    public void Export();
+    public Task GetUnit(ConfigurationUnitModel unit);
+    public Task SetUnit(ConfigurationUnitModel unit);
+    public Task TestUnit(ConfigurationUnitModel unit);
+    public Task ExportUnit(ConfigurationUnitModel unit);
 }

@@ -11,6 +11,7 @@ using dscui.ViewModels;
 using dscui.ViewModels.ConfigurationFlow;
 using dscui.Views;
 using dscui.Views.ConfigurationFlow;
+using DSCUI.Services.DesiredStateConfiguration.Contracts;
 using DSCUI.Services.DesiredStateConfiguration.Extensions;
 using DSCUI.Services.WindowsPackageManager.Extensions;
 using Microsoft.Extensions.DependencyInjection;
@@ -113,5 +114,10 @@ public partial class App : Application
         base.OnLaunched(args);
 
         await App.GetService<IActivationService>().ActivateAsync(args);
+
+        if (!await App.GetService<IDSC>().IsUnstubbedAsync())
+        {
+            await App.GetService<IDSC>().UnstubAsync();
+        }
     }
 }

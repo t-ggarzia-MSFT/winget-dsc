@@ -164,10 +164,4 @@ public sealed partial class ValidationPage : Page, IView<ValidationViewModel>
             }
         }
     }
-    private void CopyToClipboard(object sender, RoutedEventArgs e)
-    {
-        var dataPackage = new DataPackage();
-        dataPackage.SetText(ViewModel.RawData);
-        Clipboard.SetContent(dataPackage);
-    }
 }
